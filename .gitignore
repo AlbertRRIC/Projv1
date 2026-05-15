@@ -1,0 +1,11 @@
+build/
+install/
+log/
+training/
+gazebo/
+
+*.pdf
+*.gv
+*.pt
+*.pyc
+__pycache__/
