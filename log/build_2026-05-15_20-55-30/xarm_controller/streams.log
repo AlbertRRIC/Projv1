@@ -1,0 +1,119 @@
+[0.019s] Invoking command in '/home/user/projv1/build/xarm_controller': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_controller -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_controller
+[0.129s] -- The C compiler identification is GNU 11.4.0
+[0.259s] -- The CXX compiler identification is GNU 11.4.0
+[0.275s] -- Detecting C compiler ABI info
+[0.395s] -- Detecting C compiler ABI info - done
+[0.412s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.413s] -- Detecting C compile features
+[0.414s] -- Detecting C compile features - done
+[0.420s] -- Detecting CXX compiler ABI info
+[0.570s] -- Detecting CXX compiler ABI info - done
+[0.590s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.590s] -- Detecting CXX compile features
+[0.591s] -- Detecting CXX compile features - done
+[0.596s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.291s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.478s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.683s] -- Found hardware_interface: 2.53.1 (/opt/ros/humble/share/hardware_interface/cmake)
+[1.747s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.758s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.779s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.801s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.835s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.248s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[2.254s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[2.307s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[2.391s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[2.395s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[2.413s] -- Found FastRTPS: /opt/ros/humble/include  
+[2.417s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[2.427s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[2.440s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.452s] -- Looking for pthread.h
+[2.561s] -- Looking for pthread.h - found
+[2.562s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.700s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.702s] -- Found Threads: TRUE  
+[2.793s] -- Found rclcpp_action: 16.0.19 (/opt/ros/humble/share/rclcpp_action/cmake)
+[2.825s] -- Found controller_manager_msgs: 2.53.1 (/opt/ros/humble/share/controller_manager_msgs/cmake)
+[2.863s] -- Found xarm_msgs: 0.0.0 (/home/user/projv1/install/xarm_msgs/share/xarm_msgs/cmake)
+[2.902s] -- Found xarm_api: 0.0.0 (/home/user/projv1/install/xarm_api/share/xarm_api/cmake)
+[2.906s] -- Found xarm_sdk: 0.0.0 (/home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake)
+[2.923s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.927s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.928s] -- Configured cppcheck include dirs: /home/user/projv1/src/xarm_ros2/xarm_controller/include
+[2.928s] -- Configured cppcheck exclude dirs and/or files: 
+[2.932s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.933s] -- Configured cpplint exclude dirs and/or files: 
+[2.934s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.936s] -- Added test 'lint_cmake' to check CMake code style
+[2.937s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[2.940s] -- Added test 'uncrustify' to check C / C++ code style
+[2.940s] -- Configured uncrustify additional arguments: 
+[2.942s] -- Added test 'xmllint' to check XML markup files
+[2.947s] -- Configuring done
+[2.979s] -- Generating done
+[2.991s] -- Build files have been written to: /home/user/projv1/build/xarm_controller
+[3.011s] Invoked command in '/home/user/projv1/build/xarm_controller' returned '0': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_controller -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_controller
+[3.012s] Invoking command in '/home/user/projv1/build/xarm_controller': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/user/projv1/build/xarm_controller -- -j4 -l4
+[3.103s] [ 33%] [32mBuilding CXX object CMakeFiles/uf_robot_hardware.dir/src/hardware/uf_robot_system_hardware.cpp.o[0m
+[17.907s] [ 66%] [32mBuilding CXX object CMakeFiles/uf_robot_hardware.dir/src/hardware/uf_robot_fake_system_hardware.cpp.o[0m
+[20.280s] [100%] [32m[1mLinking CXX shared library libuf_robot_hardware.so[0m
+[22.916s] [100%] Built target uf_robot_hardware
+[22.935s] Invoked command in '/home/user/projv1/build/xarm_controller' returned '0': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/user/projv1/build/xarm_controller -- -j4 -l4
+[22.936s] Invoking command in '/home/user/projv1/build/xarm_controller': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/user/projv1/build/xarm_controller
+[22.946s] -- Install configuration: ""
+[22.946s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/uf_hardware_interface_plugins.xml
+[22.947s] -- Installing: /home/user/projv1/install/xarm_controller/include
+[22.947s] -- Installing: /home/user/projv1/install/xarm_controller/include/xarm_controller
+[22.947s] -- Installing: /home/user/projv1/install/xarm_controller/include/xarm_controller/hardware
+[22.948s] -- Installing: /home/user/projv1/install/xarm_controller/include/xarm_controller/hardware/uf_robot_system_hardware.h
+[22.948s] -- Installing: /home/user/projv1/install/xarm_controller/include/xarm_controller/hardware/uf_robot_fake_system_hardware.h
+[22.948s] -- Installing: /home/user/projv1/install/xarm_controller/include/xarm_controller/hardware/bak_uf_robot_fake_system_hardware.h
+[22.950s] -- Installing: /home/user/projv1/install/xarm_controller/lib/libuf_robot_hardware.so
+[22.958s] -- Set runtime path of "/home/user/projv1/install/xarm_controller/lib/libuf_robot_hardware.so" to ""
+[22.958s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch
+[22.959s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/xarm7_mirror_control_rviz_display.launch.py
+[22.959s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/xarm5_control_rviz_display.launch.py
+[22.959s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/xarm7_control_rviz_display.launch.py
+[22.959s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/_dual_ros2_control.launch.py
+[22.959s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/lib
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/lib/robot_controller_lib.py
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/_ros2_control.launch.py
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/uf850_control_rviz_display.launch.py
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/xarm6_control_rviz_display.launch.py
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/_robot_ros2_control.launch.py
+[22.960s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//launch/lite6_control_rviz_display.launch.py
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/uf850_controllers.yaml
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm7_controllers.yaml
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/uf850_gripper_controllers.yaml
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/lite6_controllers.yaml
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm5_controllers.yaml
+[22.961s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm7_mirror_controllers.yaml
+[22.962s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm_gripper_controllers.yaml
+[22.962s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm6_controllers.yaml
+[22.962s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/xarm7_mirror_gripper_controllers.yaml
+[22.962s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller//config/bio_gripper_controllers.yaml
+[22.962s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/library_path.sh
+[22.963s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/library_path.dsv
+[22.965s] -- Installing: /home/user/projv1/install/xarm_controller/share/ament_index/resource_index/package_run_dependencies/xarm_controller
+[22.965s] -- Installing: /home/user/projv1/install/xarm_controller/share/ament_index/resource_index/parent_prefix_path/xarm_controller
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/ament_prefix_path.sh
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/ament_prefix_path.dsv
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/path.sh
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/environment/path.dsv
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/local_setup.bash
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/local_setup.sh
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/local_setup.zsh
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/local_setup.dsv
+[22.966s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/package.dsv
+[22.967s] -- Installing: /home/user/projv1/install/xarm_controller/share/ament_index/resource_index/packages/xarm_controller
+[22.967s] -- Installing: /home/user/projv1/install/xarm_controller/share/ament_index/resource_index/hardware_interface__pluginlib__plugin/xarm_controller
+[22.967s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/cmake/ament_cmake_export_include_directories-extras.cmake
+[22.967s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/cmake/ament_cmake_export_libraries-extras.cmake
+[22.967s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+[22.971s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/cmake/xarm_controllerConfig.cmake
+[22.971s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/cmake/xarm_controllerConfig-version.cmake
+[22.971s] -- Installing: /home/user/projv1/install/xarm_controller/share/xarm_controller/package.xml
+[22.977s] Invoked command in '/home/user/projv1/build/xarm_controller' returned '0': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/user/projv1/build/xarm_controller

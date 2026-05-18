@@ -1,0 +1,6 @@
+Invoking command in '/home/user/projv1/build/mbot_demo': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/demo/mbot_demo -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/mbot_demo
+Invoked command in '/home/user/projv1/build/mbot_demo' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/demo/mbot_demo -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/mbot_demo
+Invoking command in '/home/user/projv1/build/mbot_demo': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/mbot_demo -- -j4 -l4
+Invoked command in '/home/user/projv1/build/mbot_demo' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/mbot_demo -- -j4 -l4
+Invoking command in '/home/user/projv1/build/mbot_demo': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/mbot_demo
+Invoked command in '/home/user/projv1/build/mbot_demo' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/mbot_demo

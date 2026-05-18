@@ -1,0 +1,6 @@
+Invoking command in '/home/user/projv1/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/thirdparty/realsense_gazebo_plugin -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/realsense_gazebo_plugin
+Invoked command in '/home/user/projv1/build/realsense_gazebo_plugin' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/thirdparty/realsense_gazebo_plugin -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/realsense_gazebo_plugin
+Invoking command in '/home/user/projv1/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/realsense_gazebo_plugin -- -j4 -l4
+Invoked command in '/home/user/projv1/build/realsense_gazebo_plugin' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/realsense_gazebo_plugin -- -j4 -l4
+Invoking command in '/home/user/projv1/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/realsense_gazebo_plugin
+Invoked command in '/home/user/projv1/build/realsense_gazebo_plugin' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/realsense_gazebo_plugin

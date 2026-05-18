@@ -1,0 +1,124 @@
+[0.027s] Invoking command in '/home/user/projv1/build/xarm_sdk': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_sdk -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_sdk
+[0.130s] -- The C compiler identification is GNU 11.4.0
+[0.245s] -- The CXX compiler identification is GNU 11.4.0
+[0.259s] -- Detecting C compiler ABI info
+[0.377s] -- Detecting C compiler ABI info - done
+[0.397s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.398s] -- Detecting C compile features
+[0.398s] -- Detecting C compile features - done
+[0.405s] -- Detecting CXX compiler ABI info
+[0.551s] -- Detecting CXX compiler ABI info - done
+[0.569s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.570s] -- Detecting CXX compile features
+[0.571s] -- Detecting CXX compile features - done
+[0.578s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.234s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.403s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.602s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.629s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.633s] -- Configured cppcheck include dirs: /home/user/projv1/src/xarm_ros2/xarm_sdk/cxx/include
+[1.633s] -- Configured cppcheck exclude dirs and/or files: 
+[1.657s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[1.657s] -- Configured cpplint exclude dirs and/or files: 
+[1.668s] -- Added test 'lint_cmake' to check CMake code style
+[1.697s] -- Added test 'uncrustify' to check C / C++ code style
+[1.697s] -- Configured uncrustify additional arguments: 
+[1.700s] -- Added test 'xmllint' to check XML markup files
+[1.704s] -- Configuring done
+[1.721s] -- Generating done
+[1.723s] -- Build files have been written to: /home/user/projv1/build/xarm_sdk
+[1.734s] Invoked command in '/home/user/projv1/build/xarm_sdk' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_sdk -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_sdk
+[1.738s] Invoking command in '/home/user/projv1/build/xarm_sdk': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_sdk -- -j4 -l4
+[1.834s] [  3%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/impl/list_ports/list_ports_linux.cc.o[0m
+[1.853s] [  6%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/impl/list_ports/list_ports_osx.cc.o[0m
+[1.856s] [  9%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/impl/list_ports/list_ports_win.cc.o[0m
+[1.856s] [ 12%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/impl/unix.cc.o[0m
+[1.925s] [ 15%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/impl/win.cc.o[0m
+[1.936s] [ 18%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/serial/serial.cc.o[0m
+[1.990s] [ 21%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/common/crc16.cc.o[0m
+[2.116s] [ 25%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/common/queue_memcpy.cc.o[0m
+[2.746s] [ 28%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/connect.cc.o[0m
+[3.083s] [ 31%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/debug/debug_print.cc.o[0m
+[3.124s] [ 34%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/instruction/uxbus_cmd.cc.o[0m
+[3.230s] [ 37%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/instruction/uxbus_cmd_ser.cc.o[0m
+[3.863s] [ 40%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/instruction/uxbus_cmd_tcp.cc.o[0m
+[3.974s] [ 43%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/os/network.cc.o[0m
+[5.004s] [ 46%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/port/ser.cc.o[0m
+[5.098s] [ 50%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/port/socket.cc.o[0m
+[5.600s] [ 53%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/core/report_data.cc.o[0m
+[5.890s] [ 56%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_api.cc.o[0m
+[6.202s] [ 59%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_bio.cc.o[0m
+[6.464s] [ 62%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_events.cc.o[0m
+[6.464s] [ 65%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_ft_sensor.cc.o[0m
+[9.615s] [ 68%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_gpio.cc.o[0m
+[10.029s] [ 71%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_gripper.cc.o[0m
+[12.769s] [ 75%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_linear_motor.cc.o[0m
+[15.026s] [ 78%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_modbus_tcp.cc.o[0m
+[15.184s] [ 81%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_motion.cc.o[0m
+[15.310s] [ 84%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_params.cc.o[0m
+[17.219s] [ 87%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_record.cc.o[0m
+[18.316s] [ 90%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_report.cc.o[0m
+[18.399s] [ 93%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_robotiq.cc.o[0m
+[20.474s] [ 96%] [32mBuilding CXX object CMakeFiles/xarm_cxx_sdk.dir/cxx/src/xarm/wrapper/xarm_servo.cc.o[0m
+[23.840s] [100%] [32m[1mLinking CXX shared library libxarm_cxx_sdk.so[0m
+[24.326s] [100%] Built target xarm_cxx_sdk
+[24.365s] Invoked command in '/home/user/projv1/build/xarm_sdk' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_sdk -- -j4 -l4
+[24.365s] Invoking command in '/home/user/projv1/build/xarm_sdk': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_sdk
+[24.391s] -- Install configuration: ""
+[24.391s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/library_path.sh
+[24.392s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/library_path.dsv
+[24.395s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include
+[24.395s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial
+[24.395s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial/impl
+[24.395s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial/impl/unix.h
+[24.395s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial/impl/win.h
+[24.396s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial/v8stdint.h
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/serial/serial.h
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/common
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/common/utils.h
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/common/timer.h
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/xarm_api.h
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core
+[24.398s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/xarm_config.h
+[24.399s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/port
+[24.399s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/port/socket.h
+[24.399s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/port/ser.h
+[24.399s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common
+[24.399s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/crc16.h
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/queue_memcpy.h
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/data_type.h
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os/network.h
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os/bak
+[24.402s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os/bak/thread.h
+[24.407s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/connect.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_config.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_tcp.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_ser.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/servo3_config.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/debug
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/debug/debug_print.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/report_data.h
+[24.408s] -- Installing: /home/user/projv1/install/xarm_sdk/lib/libxarm_cxx_sdk.so
+[24.414s] -- Installing: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/package_run_dependencies/xarm_sdk
+[24.415s] -- Installing: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/parent_prefix_path/xarm_sdk
+[24.415s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/ament_prefix_path.sh
+[24.418s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/ament_prefix_path.dsv
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/path.sh
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/path.dsv
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.bash
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.sh
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.zsh
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.dsv
+[24.419s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/package.dsv
+[24.421s] -- Installing: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/packages/xarm_sdk
+[24.421s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/ament_cmake_export_libraries-extras.cmake
+[24.421s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/ament_cmake_export_include_directories-extras.cmake
+[24.422s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/xarm_sdkConfig.cmake
+[24.422s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/xarm_sdkConfig-version.cmake
+[24.422s] -- Installing: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/package.xml
+[24.433s] Invoked command in '/home/user/projv1/build/xarm_sdk' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_sdk
