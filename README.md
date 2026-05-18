@@ -160,19 +160,45 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 
 ```
 
-- ### 5.5 Terminal 5- YOLO
+- ### 5.5 Terminal 5- Selection of classes to detect
     
 ```bash
    cd ~/projv1
    source install/setup.bash
 
-   ros2 run projv1_vision yolo_node
+   ros2 run projv1_vision select_class_node
+
+
+
+```
+For troubleshooting
+
+On another Terminal 
+```bash
+   cd ~/projv1
+   source install/setup.bash
+
+   ros2 topic echo /selected_class
+
+
+
+```
+You should see this output:
+data: Browncup
+
+- ### 5.6 Terminal 6- YOLO
+    
+```bash
+   cd ~/projv1
+   source install/setup.bash
+
+   ros2 run projv1_vision yolov1_node
 
 
 
 ```
 
-- ### 5.6 Terminal 6- Transform node
+- ### 5.7 Terminal 7- Transform node
     
 ```bash
    cd ~/projv1
@@ -185,7 +211,7 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 
 ```
 
-- ### 5.7 Terminal 7- Check target coordinates
+- ### 5.8 Terminal 8- Check target coordinates
     
 ```bash
    cd ~/projv1
@@ -204,7 +230,7 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
    y: ...
    z: ...
 
-- ### 5.8 Terminal 8- Direct pick/place node
+- ### 5.9 Terminal 9- Direct pick/place node
     
 ```bash
    cd ~/projv1
