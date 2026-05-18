@@ -1,6 +1,0 @@
-Invoking command in '/home/user/projv1/build/xarm_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_description -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_description
-Invoked command in '/home/user/projv1/build/xarm_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/user/projv1/src/xarm_ros2/xarm_description -DCMAKE_INSTALL_PREFIX=/home/user/projv1/install/xarm_description
-Invoking command in '/home/user/projv1/build/xarm_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_description -- -j4 -l4
-Invoked command in '/home/user/projv1/build/xarm_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_description -- -j4 -l4
-Invoking command in '/home/user/projv1/build/xarm_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_description
-Invoked command in '/home/user/projv1/build/xarm_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_description

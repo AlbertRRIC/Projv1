@@ -24,8 +24,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-		'yolo_node = projv1_vision.yolo_node:main',
+		'yolov1_node = projv1_vision.yolov1_node:main',
 		'target_transform_node = projv1_vision.target_transform_node:main',
+		'select_class_node = projv1_vision.select_class_node:main',
         ],
     },
 )
