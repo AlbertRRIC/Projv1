@@ -1,0 +1,59 @@
+[0.227s] Invoking command in '/home/user/projv1/build/xarm_api': CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/mbot_demo:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:/home/user/projv1/install/xarm_planner/lib:/home/user/projv1/install/xarm_moveit_servo/lib:/home/user/projv1/install/xarm_gazebo/lib:/home/user/projv1/install/xarm_controller/lib:/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/realsense_gazebo_plugin/lib:/home/user/projv1/install/realsense2_camera/lib:/home/user/projv1/install/realsense2_camera_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/user/projv1/build/xarm_api -- -j4 -l4
+[0.647s] [35m[1mConsolidate compiler generated dependencies of target xarm_ros_driver[0m
+[0.925s] [ 23%] Built target xarm_ros_driver
+[1.044s] [35m[1mConsolidate compiler generated dependencies of target test_robot_states[0m
+[1.280s] [ 38%] Built target test_robot_states
+[1.417s] [35m[1mConsolidate compiler generated dependencies of target xarm_driver_node[0m
+[1.622s] [ 53%] Built target xarm_driver_node
+[1.934s] [35m[1mConsolidate compiler generated dependencies of target xarm_ros_client[0m
+[2.174s] [ 69%] Built target xarm_ros_client
+[2.298s] [35m[1mConsolidate compiler generated dependencies of target test_xarm_ros_client[0m
+[2.392s] [ 84%] Built target test_xarm_ros_client
+[2.638s] [35m[1mConsolidate compiler generated dependencies of target test_xarm_velo_move[0m
+[2.868s] [100%] Built target test_xarm_velo_move
+[3.020s] Invoked command in '/home/user/projv1/build/xarm_api' returned '0': CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/mbot_demo:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:/home/user/projv1/install/xarm_planner/lib:/home/user/projv1/install/xarm_moveit_servo/lib:/home/user/projv1/install/xarm_gazebo/lib:/home/user/projv1/install/xarm_controller/lib:/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/realsense_gazebo_plugin/lib:/home/user/projv1/install/realsense2_camera/lib:/home/user/projv1/install/realsense2_camera_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/user/projv1/build/xarm_api -- -j4 -l4
+[3.029s] Invoking command in '/home/user/projv1/build/xarm_api': CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/mbot_demo:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:/home/user/projv1/install/xarm_planner/lib:/home/user/projv1/install/xarm_moveit_servo/lib:/home/user/projv1/install/xarm_gazebo/lib:/home/user/projv1/install/xarm_controller/lib:/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/realsense_gazebo_plugin/lib:/home/user/projv1/install/realsense2_camera/lib:/home/user/projv1/install/realsense2_camera_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/user/projv1/build/xarm_api
+[3.130s] -- Install configuration: ""
+[3.130s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/library_path.sh
+[3.130s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/library_path.dsv
+[3.137s] -- Up-to-date: /home/user/projv1/install/xarm_api/include
+[3.137s] -- Up-to-date: /home/user/projv1/install/xarm_api/include/xarm_api
+[3.137s] -- Up-to-date: /home/user/projv1/install/xarm_api/include/xarm_api/xarm_driver.h
+[3.137s] -- Up-to-date: /home/user/projv1/install/xarm_api/include/xarm_api/xarm_msgs.h
+[3.138s] -- Up-to-date: /home/user/projv1/install/xarm_api/include/xarm_api/xarm_ros_client.h
+[3.138s] -- Up-to-date: /home/user/projv1/install/xarm_api/include/xarm_api/visibility_control.h
+[3.138s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/libxarm_ros_driver.so
+[3.144s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/libxarm_ros_client.so
+[3.144s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/xarm_api/xarm_driver_node
+[3.145s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/xarm_api/test_xarm_ros_client
+[3.145s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/xarm_api/test_xarm_velo_move
+[3.145s] -- Up-to-date: /home/user/projv1/install/xarm_api/lib/xarm_api/test_robot_states
+[3.145s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch
+[3.145s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/uf850_driver.launch.py
+[3.155s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/_robot_driver.launch.py
+[3.155s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/xarm7_driver.launch.py
+[3.155s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/xarm6_driver.launch.py
+[3.155s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/lib
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/lib/robot_api_lib.py
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/xarm5_driver.launch.py
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//launch/lite6_driver.launch.py
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//config
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api//config/xarm_params.yaml
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/ament_index/resource_index/package_run_dependencies/xarm_api
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/ament_index/resource_index/parent_prefix_path/xarm_api
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/ament_prefix_path.sh
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/ament_prefix_path.dsv
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/path.sh
+[3.156s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/environment/path.dsv
+[3.157s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/local_setup.bash
+[3.157s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/local_setup.sh
+[3.157s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/local_setup.zsh
+[3.170s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/local_setup.dsv
+[3.180s] -- Installing: /home/user/projv1/install/xarm_api/share/xarm_api/package.dsv
+[3.181s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/ament_index/resource_index/packages/xarm_api
+[3.196s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/cmake/ament_cmake_export_libraries-extras.cmake
+[3.197s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/cmake/ament_cmake_export_include_directories-extras.cmake
+[3.197s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/cmake/xarm_apiConfig.cmake
+[3.197s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/cmake/xarm_apiConfig-version.cmake
+[3.198s] -- Up-to-date: /home/user/projv1/install/xarm_api/share/xarm_api/package.xml
+[3.206s] Invoked command in '/home/user/projv1/build/xarm_api' returned '0': CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/mbot_demo:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble LD_LIBRARY_PATH=/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/xarm_msgs/lib:/home/user/projv1/install/xarm_planner/lib:/home/user/projv1/install/xarm_moveit_servo/lib:/home/user/projv1/install/xarm_gazebo/lib:/home/user/projv1/install/xarm_controller/lib:/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/realsense_gazebo_plugin/lib:/home/user/projv1/install/realsense2_camera/lib:/home/user/projv1/install/realsense2_camera_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/user/projv1/build/xarm_api

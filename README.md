@@ -97,7 +97,7 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
    source /opt/ros/humble/setup.bash
    source ~/projv1/install/setup.bash
 
-   ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py
+   ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py add_realsense_d435i:=true add_d435i_links:=true
 
 ```
 
@@ -249,7 +249,3 @@ data: Browncup
    Accepted target...
    Sending joint goal...
    Goal succeeded
-
-
-
-
