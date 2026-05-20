@@ -94,10 +94,9 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 - ### 5.1 Terminal 1- Gazebo
     
 ```bash
-   source /opt/ros/humble/setup.bash
-   source ~/projv1/install/setup.bash
-
-   ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py add_realsense_d435i:=true add_d435i_links:=true
+source /opt/ros/humble/setup.bash
+source ~/projv1/install/setup.bash
+ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py add_realsense_d435i:=true add_d435i_links:=true
 
 ```
 
@@ -105,29 +104,28 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 - ### 5.2 Terminal 2- Controllers
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 control list_controllers
+cd ~/projv1
+source install/setup.bash
+ros2 control list_controllers
 
 ```
    If not Active:
 ```bash
-   ros2 control load_controller --set-state active joint_state_broadcaster
-   ros2 control load_controller --set-state active xarm7_traj_controller
+ros2 control load_controller --set-state active joint_state_broadcaster
+ros2 control load_controller --set-state active xarm7_traj_controller
 
 
 ```
    Check:
 ```bash
-   ros2 control list_controllers
+ros2 control list_controllers
 
 
 ```
    Make sure Output:
 ```bash
-   joint_state_broadcaster active
-   xarm7_traj_controller active
+joint_state_broadcaster active
+xarm7_traj_controller active
 
 
 
@@ -135,13 +133,13 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 - ### 5.3 Terminal 3- RealSense Camera
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
+cd ~/projv1
+source install/setup.bash
 
-   ros2 launch realsense2_camera rs_launch.py \
-   align_depth.enable:=true \
-   enable_color:=true \
-   enable_depth:=true
+ros2 launch realsense2_camera rs_launch.py \
+align_depth.enable:=true \
+enable_color:=true \
+enable_depth:=true
 
 
 ```
@@ -149,12 +147,12 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 - ### 5.4 Terminal 4- Camera TF
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
+cd ~/projv1
+source install/setup.bash
 
-   ros2 run tf2_ros static_transform_publisher \
-   0.2 0.0 0.2 0 0 0 \
-   link_base camera_link
+ros2 run tf2_ros static_transform_publisher \
+0.2 0.0 0.2 0 0 0 \
+link_base camera_link
 
 
 
@@ -163,10 +161,9 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 - ### 5.5 Terminal 5- Selection of classes to detect
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 run projv1_vision select_class_node
+cd ~/projv1
+source install/setup.bash
+ros2 run projv1_vision select_class_node
 
 
 
@@ -175,10 +172,9 @@ For troubleshooting
 
 On another Terminal 
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 topic echo /selected_class
+cd ~/projv1
+source install/setup.bash
+ros2 topic echo /selected_class
 
 
 
@@ -189,10 +185,9 @@ data: Browncup
 - ### 5.6 Terminal 6- YOLO
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 run projv1_vision yolov1_node
+cd ~/projv1
+source install/setup.bash
+ros2 run projv1_vision yolov1_node
 
 
 
@@ -201,10 +196,9 @@ data: Browncup
 - ### 5.7 Terminal 7- Transform node
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 run projv1_manipulation target_transform_node
+cd ~/projv1
+source install/setup.bash
+ros2 run projv1_manipulation target_transform_node
  
 
 
@@ -214,10 +208,9 @@ data: Browncup
 - ### 5.8 Terminal 8- Check target coordinates
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-
-   ros2 topic echo /target_base
+cd ~/projv1
+source install/setup.bash
+ros2 topic echo /target_base
 
  
 
@@ -233,10 +226,9 @@ data: Browncup
 - ### 5.9 Terminal 9- Direct pick/place node
     
 ```bash
-   cd ~/projv1
-   source install/setup.bash
-   ~/projv1/src/projv1_gazebo/scripts/spawn_table_cups.sh
-   ros2 run projv1_manipulation direct_pick_place_node
+cd ~/projv1
+source install/setup.bash
+ros2 run projv1_manipulation direct_pick_place_node
 
 
  
@@ -249,3 +241,4 @@ data: Browncup
    Accepted target...
    Sending joint goal...
    Goal succeeded
+
