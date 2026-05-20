@@ -1,4 +1,5 @@
 import time
+import math
 import threading
 
 import rclpy
@@ -26,11 +27,28 @@ class MoveItPickPlaceNode(Node):
         self.done_once = False
         self.latest_joint_state = None
         self.saved_target = None
+        self.initial_pose_done = False
 
-        # Fixed place location in link_base frame
-        self.place_x = 0.30
-        self.place_y = -0.25
-        self.place_z = 0.25
+        self.joint_names = [
+            'joint1', 'joint2', 'joint3', 'joint4',
+            'joint5', 'joint6', 'joint7'
+        ]
+
+        self.initial_detect_pose = self.deg_list([
+            0.7, 5.0, 4.7, 0.9, 8.0, -57.3, -1.2
+        ])
+
+        self.after_pick_pose = self.deg_list([
+            -7.6, 49.9, 5.6, 32.3, 0.3, -83.7, -1.2
+        ])
+
+        self.coffee_machine_pose = self.deg_list([
+            2.1, 56.0, 3.4, 55.5, -75.2, -73.3, -1.2
+        ])
+
+        self.consumer_place_pose = self.deg_list([
+            -1.8, 1.4, 7.7, 2.0, 6.4, -87.6, -1.2
+        ])
 
         self.callback_group = ReentrantCallbackGroup()
 
@@ -59,10 +77,17 @@ class MoveItPickPlaceNode(Node):
             callback_group=self.callback_group
         )
 
-        self.action_client = ActionClient(
+        self.arm_action_client = ActionClient(
             self,
             FollowJointTrajectory,
             '/xarm7_traj_controller/follow_joint_trajectory',
+            callback_group=self.callback_group
+        )
+
+        self.gripper_action_client = ActionClient(
+            self,
+            FollowJointTrajectory,
+            '/xarm_gripper_traj_controller/follow_joint_trajectory',
             callback_group=self.callback_group
         )
 
@@ -71,11 +96,16 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().info("Waiting for /compute_ik service...")
         self.ik_client.wait_for_service()
 
-        self.get_logger().info("Waiting for trajectory action server...")
-        self.action_client.wait_for_server()
+        self.get_logger().info("Waiting for arm trajectory action server...")
+        self.arm_action_client.wait_for_server()
 
-        self.get_logger().info("MoveIt pick/place node started")
-        self.get_logger().info("Waiting for /joint_states and /target_base...")
+        self.get_logger().info("Waiting for gripper trajectory action server...")
+        self.gripper_action_client.wait_for_server()
+
+        self.get_logger().info("MoveIt coffee sequence node started")
+
+    def deg_list(self, values):
+        return [math.radians(v) for v in values]
 
     def joint_state_callback(self, msg):
         self.latest_joint_state = msg
@@ -85,13 +115,26 @@ class MoveItPickPlaceNode(Node):
             self.get_logger().warn("Still waiting for /joint_states...")
             return
 
-        if self.saved_target is not None and not self.busy and not self.done_once:
+        if not self.initial_pose_done and not self.busy:
+            self.busy = True
+            threading.Thread(
+                target=self.move_to_initial_detection_pose,
+                daemon=True
+            ).start()
+            return
+
+        if (
+            self.initial_pose_done
+            and self.saved_target is not None
+            and not self.busy
+            and not self.done_once
+        ):
             x, y, z = self.saved_target
             self.busy = True
             self.done_once = True
 
             threading.Thread(
-                target=self.pick_place_sequence,
+                target=self.pick_coffee_sequence,
                 args=(x, y, z),
                 daemon=True
             ).start()
@@ -100,15 +143,26 @@ class MoveItPickPlaceNode(Node):
         if self.done_once:
             return
 
-        self.saved_target = (
-            msg.point.x,
-            msg.point.y,
-            msg.point.z
-        )
+        x = msg.point.x
+        y = msg.point.y
+        z = msg.point.z
+
+        if x < 0.10 or x > 0.80:
+            self.get_logger().warn(f"Rejected X out of range: {x:.3f}")
+            return
+
+        if y < -0.40 or y > 0.40:
+            self.get_logger().warn(f"Rejected Y out of range: {y:.3f}")
+            return
+
+        if z < 0.05 or z > 0.50:
+            self.get_logger().warn(f"Rejected Z out of range: {z:.3f}")
+            return
+
+        self.saved_target = (x, y, z)
 
         self.get_logger().info(
-            f"Target received: X={msg.point.x:.3f}, "
-            f"Y={msg.point.y:.3f}, Z={msg.point.z:.3f}"
+            f"Target received: X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
         )
 
     def wait_future(self, future, timeout_sec):
@@ -195,45 +249,40 @@ class MoveItPickPlaceNode(Node):
         joint_state = result.solution.joint_state
         joint_map = dict(zip(joint_state.name, joint_state.position))
 
-        joint_names = [
-            'joint1',
-            'joint2',
-            'joint3',
-            'joint4',
-            'joint5',
-            'joint6',
-            'joint7'
-        ]
-
         try:
-            positions = [joint_map[name] for name in joint_names]
+            positions = [joint_map[name] for name in self.joint_names]
+
+            current_joint_map = dict(
+                zip(self.latest_joint_state.name, self.latest_joint_state.position)
+            )
+
+            current_positions = [
+                current_joint_map[name] for name in self.joint_names
+            ]
+
+            max_allowed_change = 1.5
+
+            for i in range(len(positions)):
+                diff = abs(positions[i] - current_positions[i])
+
+                if diff > max_allowed_change:
+                    self.get_logger().warn(
+                        f"IK rejected: joint{i + 1} changes too much: {diff:.2f} rad"
+                    )
+                    return None
+
+            positions[6] = current_positions[6]
+
         except KeyError as e:
             self.get_logger().warn(f"IK solution missing joint: {e}")
             return None
 
-        # Reduce wrist twisting by keeping joint7 close to current value
-        current_joint_map = dict(
-            zip(self.latest_joint_state.name, self.latest_joint_state.position)
-        )
-
-        if 'joint7' in current_joint_map:
-            positions[6] = current_joint_map['joint7']
-
-        self.get_logger().info(f"IK solution: {positions}")
+        self.get_logger().info(f"IK solution accepted: {positions}")
         return positions
 
-    def send_joint_goal(self, positions, duration=4):
+    def send_arm_goal(self, positions, duration=5):
         goal_msg = FollowJointTrajectory.Goal()
-
-        goal_msg.trajectory.joint_names = [
-            'joint1',
-            'joint2',
-            'joint3',
-            'joint4',
-            'joint5',
-            'joint6',
-            'joint7'
-        ]
+        goal_msg.trajectory.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
         point.positions = positions
@@ -242,40 +291,84 @@ class MoveItPickPlaceNode(Node):
         goal_msg.trajectory.points.append(point)
         goal_msg.goal_time_tolerance.sec = 3
 
-        self.get_logger().info(f"Sending joint goal: {positions}")
+        self.get_logger().info(f"Sending arm goal: {positions}")
 
-        future = self.action_client.send_goal_async(goal_msg)
+        future = self.arm_action_client.send_goal_async(goal_msg)
 
         if not self.wait_future(future, 5.0):
-            self.get_logger().warn("Goal send timeout")
+            self.get_logger().warn("Arm goal send timeout")
             return False
 
         goal_handle = future.result()
 
         if not goal_handle.accepted:
-            self.get_logger().warn("Goal rejected")
+            self.get_logger().warn("Arm goal rejected")
             return False
 
-        self.get_logger().info("Goal accepted")
+        self.get_logger().info("Arm goal accepted")
 
         result_future = goal_handle.get_result_async()
 
         if not self.wait_future(result_future, duration + 6):
-            self.get_logger().warn("Goal result timeout, continuing")
+            self.get_logger().warn("Arm result timeout, continuing")
             time.sleep(1.0)
             return True
 
         result = result_future.result().result
 
         if result.error_code == 0:
-            self.get_logger().info("Motion complete")
+            self.get_logger().info("Arm motion complete")
             time.sleep(0.5)
             return True
 
-        self.get_logger().warn(f"Goal failed: {result.error_string}")
+        self.get_logger().warn(f"Arm goal failed: {result.error_string}")
         return False
 
-    def move_to_pose(self, x, y, z):
+    def send_gripper_goal(self, position, duration=2):
+        goal_msg = FollowJointTrajectory.Goal()
+        goal_msg.trajectory.joint_names = ['drive_joint']
+
+        point = JointTrajectoryPoint()
+        point.positions = [position]
+        point.time_from_start.sec = duration
+
+        goal_msg.trajectory.points.append(point)
+        goal_msg.goal_time_tolerance.sec = 2
+
+        self.get_logger().info(f"Sending gripper goal: {position}")
+
+        future = self.gripper_action_client.send_goal_async(goal_msg)
+
+        if not self.wait_future(future, 5.0):
+            self.get_logger().warn("Gripper goal send timeout")
+            return False
+
+        goal_handle = future.result()
+
+        if not goal_handle.accepted:
+            self.get_logger().warn("Gripper goal rejected")
+            return False
+
+        result_future = goal_handle.get_result_async()
+
+        if not self.wait_future(result_future, duration + 4):
+            self.get_logger().warn("Gripper result timeout, continuing")
+            time.sleep(0.5)
+            return True
+
+        self.get_logger().info("Gripper motion complete")
+        time.sleep(0.5)
+        return True
+
+    def open_gripper(self):
+        self.get_logger().info("Opening gripper")
+        return self.send_gripper_goal(0.550)
+
+    def close_gripper(self):
+        self.get_logger().info("Closing gripper")
+        return self.send_gripper_goal(0.495)
+
+    def move_to_pose(self, x, y, z, duration=5):
         joints = self.compute_ik(x, y, z)
 
         if joints is None:
@@ -285,54 +378,94 @@ class MoveItPickPlaceNode(Node):
             f"Moving to pose X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
         )
 
-        return self.send_joint_goal(joints, duration=4)
+        return self.send_arm_goal(joints, duration=duration)
 
-    def open_gripper(self):
-        self.get_logger().info("Opening gripper placeholder")
-        time.sleep(1.0)
+    def move_to_initial_detection_pose(self):
+        self.get_logger().info("Moving to initial detection pose...")
 
-    def close_gripper(self):
-        self.get_logger().info("Closing gripper placeholder")
-        time.sleep(1.0)
+        if self.send_arm_goal(self.initial_detect_pose, duration=5):
+            self.get_logger().info("Initial detection pose reached")
+            self.initial_pose_done = True
+        else:
+            self.get_logger().warn("Failed to move to initial detection pose")
 
-    def pick_place_sequence(self, x, y, z):
+        self.busy = False
+
+    def pick_coffee_sequence(self, x, y, z):
         self.get_logger().info(
-            f"Starting pick/place at X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+            f"Starting sequence at cup X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
         )
 
-        above_z = z + 0.12
-        pick_z = z + 0.03
-        lift_z = z + 0.20
+        above_z = z + 0.08
+        pick_z = z - 0.02
 
-        self.open_gripper()
-
-        # 1. Move above target
-        if not self.move_to_pose(x, y, above_z):
+        if not self.open_gripper():
             self.busy = False
             return
 
-        # 2. Lower near target
-        if not self.move_to_pose(x, y, pick_z):
+        if not self.move_to_pose(x, y, above_z, duration=5):
             self.busy = False
             return
 
-        # 3. Placeholder close gripper
-        self.close_gripper()
-
-        # 4. Lift
-        if not self.move_to_pose(x, y, lift_z):
+        if not self.move_to_pose(x, y, pick_z, duration=5):
             self.busy = False
             return
 
-        # 5. Move to fixed place location
-        if not self.move_to_pose(self.place_x, self.place_y, self.place_z + 0.15):
+        if not self.close_gripper():
             self.busy = False
             return
 
-        # 6. Placeholder open gripper
-        self.open_gripper()
+        # Fig 1: lift/move after pickup
+        if not self.send_arm_goal(self.after_pick_pose, duration=6):
+            self.busy = False
+            return
 
-        self.get_logger().info("Pick/place motion complete")
+        # Fig 2: place at coffee machine
+        if not self.send_arm_goal(self.coffee_machine_pose, duration=6):
+            self.busy = False
+            return
+
+        if not self.open_gripper():
+            self.busy = False
+            return
+
+        self.get_logger().info("Cup at coffee machine. Waiting 10 seconds...")
+        time.sleep(10.0)
+
+        if not self.close_gripper():
+            self.busy = False
+            return
+
+        # Fig 1 again: lift away from coffee machine
+        if not self.send_arm_goal(self.after_pick_pose, duration=6):
+            self.busy = False
+            return
+
+        # Fig 3: consumer pickup spot
+        if not self.send_arm_goal(self.consumer_place_pose, duration=6):
+            self.busy = False
+            return
+
+        # Place cup back to original pickup location
+        if not self.move_to_pose(x, y, pick_z, duration=5):
+            self.busy = False
+            return
+
+        if not self.open_gripper():
+            self.busy = False
+            return
+
+        time.sleep(1.0)
+
+        # Move back above the original pickup location
+        if not self.move_to_pose(x, y, above_z, duration=5):
+            self.busy = False
+            return
+
+        # Return to initial detection pose
+        self.send_arm_goal(self.initial_detect_pose, duration=6)
+
+        self.get_logger().info("Full coffee cup sequence complete")
         self.busy = False
 
 
