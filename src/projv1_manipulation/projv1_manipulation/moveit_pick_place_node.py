@@ -10,7 +10,7 @@ from rclpy.executors import MultiThreadedExecutor
 
 from geometry_msgs.msg import PointStamped, PoseStamped
 from sensor_msgs.msg import JointState
-from control_msgs.action import FollowJointTrajectory
+from control_msgs.action import FollowJointTrajectory, GripperCommand
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.srv import GetPositionIK
 from moveit_msgs.msg import RobotState
@@ -50,6 +50,9 @@ class MoveItPickPlaceNode(Node):
             -1.8, 1.4, 7.7, 2.0, 6.4, -87.6, -1.2
         ])
 
+        self.GRIPPER_OPEN = 550.0
+        self.GRIPPER_HOLD = 495.0
+
         self.callback_group = ReentrantCallbackGroup()
 
         self.tf_buffer = tf2_ros.Buffer()
@@ -86,8 +89,8 @@ class MoveItPickPlaceNode(Node):
 
         self.gripper_action_client = ActionClient(
             self,
-            FollowJointTrajectory,
-            '/xarm_gripper_traj_controller/follow_joint_trajectory',
+            GripperCommand,
+            '/xarm_gripper/gripper_action',
             callback_group=self.callback_group
         )
 
@@ -99,7 +102,7 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().info("Waiting for arm trajectory action server...")
         self.arm_action_client.wait_for_server()
 
-        self.get_logger().info("Waiting for gripper trajectory action server...")
+        self.get_logger().info("Waiting for real gripper action server...")
         self.gripper_action_client.wait_for_server()
 
         self.get_logger().info("MoveIt coffee sequence node started")
@@ -211,7 +214,6 @@ class MoveItPickPlaceNode(Node):
         pose = PoseStamped()
         pose.header.frame_id = 'link_base'
         pose.header.stamp = self.get_clock().now().to_msg()
-
         pose.pose.position.x = x
         pose.pose.position.y = y
         pose.pose.position.z = z
@@ -280,7 +282,7 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().info(f"IK solution accepted: {positions}")
         return positions
 
-    def send_arm_goal(self, positions, duration=5):
+    def send_arm_goal(self, positions, duration=8):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
 
@@ -324,16 +326,10 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().warn(f"Arm goal failed: {result.error_string}")
         return False
 
-    def send_gripper_goal(self, position, duration=2):
-        goal_msg = FollowJointTrajectory.Goal()
-        goal_msg.trajectory.joint_names = ['drive_joint']
-
-        point = JointTrajectoryPoint()
-        point.positions = [position]
-        point.time_from_start.sec = duration
-
-        goal_msg.trajectory.points.append(point)
-        goal_msg.goal_time_tolerance.sec = 2
+    def send_gripper_goal(self, position):
+        goal_msg = GripperCommand.Goal()
+        goal_msg.command.position = float(position)
+        goal_msg.command.max_effort = 0.0
 
         self.get_logger().info(f"Sending gripper goal: {position}")
 
@@ -351,24 +347,23 @@ class MoveItPickPlaceNode(Node):
 
         result_future = goal_handle.get_result_async()
 
-        if not self.wait_future(result_future, duration + 4):
-            self.get_logger().warn("Gripper result timeout, continuing")
-            time.sleep(0.5)
-            return True
+        if not self.wait_future(result_future, 8.0):
+            self.get_logger().warn("Gripper result timeout")
+            return False
 
         self.get_logger().info("Gripper motion complete")
-        time.sleep(0.5)
+        time.sleep(1.0)
         return True
 
     def open_gripper(self):
-        self.get_logger().info("Opening gripper")
-        return self.send_gripper_goal(0.550)
+        self.get_logger().info("Opening gripper to 550")
+        return self.send_gripper_goal(self.GRIPPER_OPEN)
 
     def close_gripper(self):
-        self.get_logger().info("Closing gripper")
-        return self.send_gripper_goal(0.495)
+        self.get_logger().info("Closing gripper gently to 495")
+        return self.send_gripper_goal(self.GRIPPER_HOLD)
 
-    def move_to_pose(self, x, y, z, duration=5):
+    def move_to_pose(self, x, y, z, duration=8):
         joints = self.compute_ik(x, y, z)
 
         if joints is None:
@@ -383,7 +378,7 @@ class MoveItPickPlaceNode(Node):
     def move_to_initial_detection_pose(self):
         self.get_logger().info("Moving to initial detection pose...")
 
-        if self.send_arm_goal(self.initial_detect_pose, duration=5):
+        if self.send_arm_goal(self.initial_detect_pose, duration=8):
             self.get_logger().info("Initial detection pose reached")
             self.initial_pose_done = True
         else:
@@ -403,11 +398,11 @@ class MoveItPickPlaceNode(Node):
             self.busy = False
             return
 
-        if not self.move_to_pose(x, y, above_z, duration=5):
+        if not self.move_to_pose(x, y, above_z, duration=8):
             self.busy = False
             return
 
-        if not self.move_to_pose(x, y, pick_z, duration=5):
+        if not self.move_to_pose(x, y, pick_z, duration=8):
             self.busy = False
             return
 
@@ -415,13 +410,11 @@ class MoveItPickPlaceNode(Node):
             self.busy = False
             return
 
-        # Fig 1: lift/move after pickup
-        if not self.send_arm_goal(self.after_pick_pose, duration=6):
+        if not self.send_arm_goal(self.after_pick_pose, duration=10):
             self.busy = False
             return
 
-        # Fig 2: place at coffee machine
-        if not self.send_arm_goal(self.coffee_machine_pose, duration=6):
+        if not self.send_arm_goal(self.coffee_machine_pose, duration=10):
             self.busy = False
             return
 
@@ -436,18 +429,15 @@ class MoveItPickPlaceNode(Node):
             self.busy = False
             return
 
-        # Fig 1 again: lift away from coffee machine
-        if not self.send_arm_goal(self.after_pick_pose, duration=6):
+        if not self.send_arm_goal(self.after_pick_pose, duration=10):
             self.busy = False
             return
 
-        # Fig 3: consumer pickup spot
-        if not self.send_arm_goal(self.consumer_place_pose, duration=6):
+        if not self.send_arm_goal(self.consumer_place_pose, duration=10):
             self.busy = False
             return
 
-        # Place cup back to original pickup location
-        if not self.move_to_pose(x, y, pick_z, duration=5):
+        if not self.move_to_pose(x, y, pick_z, duration=8):
             self.busy = False
             return
 
@@ -457,13 +447,11 @@ class MoveItPickPlaceNode(Node):
 
         time.sleep(1.0)
 
-        # Move back above the original pickup location
-        if not self.move_to_pose(x, y, above_z, duration=5):
+        if not self.move_to_pose(x, y, above_z, duration=8):
             self.busy = False
             return
 
-        # Return to initial detection pose
-        self.send_arm_goal(self.initial_detect_pose, duration=6)
+        self.send_arm_goal(self.initial_detect_pose, duration=10)
 
         self.get_logger().info("Full coffee cup sequence complete")
         self.busy = False

@@ -1,0 +1,109 @@
+[0.000000] (-) TimerEvent: {}
+[0.003030] (-) JobUnselected: {'identifier': 'd435i_xarm_setup'}
+[0.003123] (-) JobUnselected: {'identifier': 'mbot_demo'}
+[0.003167] (-) JobUnselected: {'identifier': 'projv1_vision'}
+[0.003205] (-) JobUnselected: {'identifier': 'realsense2_camera'}
+[0.003241] (-) JobUnselected: {'identifier': 'realsense2_camera_msgs'}
+[0.003276] (-) JobUnselected: {'identifier': 'realsense2_description'}
+[0.003311] (-) JobUnselected: {'identifier': 'realsense2_ros_mqtt_bridge'}
+[0.003345] (-) JobUnselected: {'identifier': 'realsense2_rviz_plugin'}
+[0.003379] (-) JobUnselected: {'identifier': 'realsense_gazebo_plugin'}
+[0.003413] (-) JobUnselected: {'identifier': 'uf_ros_lib'}
+[0.003446] (-) JobUnselected: {'identifier': 'xarm_api'}
+[0.003479] (-) JobUnselected: {'identifier': 'xarm_controller'}
+[0.003512] (-) JobUnselected: {'identifier': 'xarm_description'}
+[0.003545] (-) JobUnselected: {'identifier': 'xarm_gazebo'}
+[0.003577] (-) JobUnselected: {'identifier': 'xarm_moveit_config'}
+[0.003608] (-) JobUnselected: {'identifier': 'xarm_moveit_servo'}
+[0.003640] (-) JobUnselected: {'identifier': 'xarm_msgs'}
+[0.003671] (-) JobUnselected: {'identifier': 'xarm_planner'}
+[0.003702] (-) JobUnselected: {'identifier': 'xarm_sdk'}
+[0.003739] (projv1_manipulation) JobQueued: {'identifier': 'projv1_manipulation', 'dependencies': OrderedDict([('xarm_msgs', '/home/user/projv1/install/xarm_msgs')])}
+[0.003782] (projv1_manipulation) JobStarted: {'identifier': 'projv1_manipulation'}
+[0.104147] (-) TimerEvent: {}
+[0.206748] (-) TimerEvent: {}
+[0.308305] (-) TimerEvent: {}
+[0.414707] (-) TimerEvent: {}
+[0.517015] (-) TimerEvent: {}
+[0.620864] (-) TimerEvent: {}
+[0.721419] (-) TimerEvent: {}
+[0.826087] (-) TimerEvent: {}
+[0.927851] (-) TimerEvent: {}
+[1.031155] (-) TimerEvent: {}
+[1.132928] (-) TimerEvent: {}
+[1.233938] (-) TimerEvent: {}
+[1.335994] (-) TimerEvent: {}
+[1.439915] (-) TimerEvent: {}
+[1.544478] (-) TimerEvent: {}
+[1.645424] (-) TimerEvent: {}
+[1.746013] (-) TimerEvent: {}
+[1.846375] (-) TimerEvent: {}
+[1.948509] (-) TimerEvent: {}
+[2.054413] (-) TimerEvent: {}
+[2.154783] (-) TimerEvent: {}
+[2.256950] (-) TimerEvent: {}
+[2.357686] (-) TimerEvent: {}
+[2.465875] (-) TimerEvent: {}
+[2.566507] (-) TimerEvent: {}
+[2.669745] (-) TimerEvent: {}
+[2.771882] (-) TimerEvent: {}
+[2.873890] (-) TimerEvent: {}
+[2.984361] (-) TimerEvent: {}
+[3.084864] (-) TimerEvent: {}
+[3.189887] (-) TimerEvent: {}
+[3.290344] (-) TimerEvent: {}
+[3.355907] (projv1_manipulation) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/projv1_manipulation', 'build', '--build-base', '/home/user/projv1/build/projv1_manipulation/build', 'install', '--record', '/home/user/projv1/build/projv1_manipulation/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/user/projv1/src/projv1_manipulation', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'user', 'LC_TIME': 'id_ID.UTF-8', 'XDG_SESSION_TYPE': 'wayland', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/user/projv1/install/xarm_msgs/lib:/home/user/projv1/install/xarm_planner/lib:/home/user/projv1/install/xarm_moveit_servo/lib:/home/user/projv1/install/xarm_gazebo/lib:/home/user/projv1/install/xarm_controller/lib:/home/user/projv1/install/xarm_api/lib:/home/user/projv1/install/xarm_sdk/lib:/home/user/projv1/install/realsense_gazebo_plugin/lib:/home/user/projv1/install/realsense2_camera/lib:/home/user/projv1/install/realsense2_camera_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/user', 'OLDPWD': '/home/user/projv1', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'id_ID.UTF-8', 'SYSTEMD_EXEC_PID': '11862', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/user/projv1/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'user', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'user', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '1', 'PATH': '/opt/ros/humble/bin:/home/user/sdkdk/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/user/.local/bin', 'SESSION_MANAGER': 'local/user-ThinkPad-T470:@/tmp/.ICE-unix/1562,unix/user-ThinkPad-T470:/tmp/.ICE-unix/1562', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'id_ID.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/67b56dc6_e6a3_452e_866a_90a66c3446ab', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'id_ID.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.N5QHP3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.166', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '101', 'AMENT_PREFIX_PATH': '/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_description:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/projv1_vision:/home/user/projv1/install/mbot_demo:/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'id_ID.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'id_ID.UTF-8', 'LC_IDENTIFICATION': 'id_ID.UTF-8', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/user/projv1/build/projv1_manipulation', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/user/projv1/build/projv1_manipulation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages:/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages:/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:/home/user/projv1/install/uf_ros_lib/lib/python3.10/site-packages:/home/user/projv1/install/realsense2_ros_mqtt_bridge/lib/python3.10/site-packages:/home/user/projv1/install/realsense2_camera_msgs/local/lib/python3.10/dist-packages:/home/user/projv1/install/projv1_vision/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'id_ID.UTF-8', 'LC_PAPER': 'id_ID.UTF-8', 'COLCON': '1', 'VTE_VERSION': '6800', 'CMAKE_PREFIX_PATH': '/home/user/projv1/install/xarm_msgs:/home/user/projv1/install/xarm_planner:/home/user/projv1/install/xarm_moveit_servo:/home/user/projv1/install/xarm_moveit_config:/home/user/projv1/install/xarm_gazebo:/home/user/projv1/install/xarm_controller:/home/user/projv1/install/d435i_xarm_setup:/home/user/projv1/install/xarm_api:/home/user/projv1/install/xarm_sdk:/home/user/projv1/install/xarm_description:/home/user/projv1/install/realsense_gazebo_plugin:/home/user/projv1/install/realsense2_rviz_plugin:/home/user/projv1/install/realsense2_description:/home/user/projv1/install/realsense2_camera:/home/user/projv1/install/realsense2_camera_msgs:/home/user/projv1/install/mbot_demo'}, 'shell': False}
+[3.391846] (-) TimerEvent: {}
+[3.492242] (-) TimerEvent: {}
+[3.594446] (-) TimerEvent: {}
+[3.695174] (-) TimerEvent: {}
+[3.795951] (-) TimerEvent: {}
+[3.900017] (-) TimerEvent: {}
+[4.002881] (-) TimerEvent: {}
+[4.103381] (-) TimerEvent: {}
+[4.204840] (-) TimerEvent: {}
+[4.305379] (-) TimerEvent: {}
+[4.406591] (projv1_manipulation) StdoutLine: {'line': b'running egg_info\n'}
+[4.407072] (-) TimerEvent: {}
+[4.493398] (projv1_manipulation) StdoutLine: {'line': b'writing ../../build/projv1_manipulation/projv1_manipulation.egg-info/PKG-INFO\n'}
+[4.497210] (projv1_manipulation) StdoutLine: {'line': b'writing dependency_links to ../../build/projv1_manipulation/projv1_manipulation.egg-info/dependency_links.txt\n'}
+[4.498734] (projv1_manipulation) StdoutLine: {'line': b'writing entry points to ../../build/projv1_manipulation/projv1_manipulation.egg-info/entry_points.txt\n'}
+[4.501229] (projv1_manipulation) StdoutLine: {'line': b'writing requirements to ../../build/projv1_manipulation/projv1_manipulation.egg-info/requires.txt\n'}
+[4.503843] (projv1_manipulation) StdoutLine: {'line': b'writing top-level names to ../../build/projv1_manipulation/projv1_manipulation.egg-info/top_level.txt\n'}
+[4.509508] (-) TimerEvent: {}
+[4.610581] (-) TimerEvent: {}
+[4.685166] (projv1_manipulation) StdoutLine: {'line': b"reading manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'\n"}
+[4.687939] (projv1_manipulation) StdoutLine: {'line': b"writing manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'\n"}
+[4.688173] (projv1_manipulation) StdoutLine: {'line': b'running build\n'}
+[4.688810] (projv1_manipulation) StdoutLine: {'line': b'running build_py\n'}
+[4.689000] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/gazebo_cup_marker_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.689776] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/moveit_above_cup_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.694510] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/direct_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.695424] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/target_transform_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.701472] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/__init__.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.702079] (projv1_manipulation) StdoutLine: {'line': b'copying projv1_manipulation/moveit_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation\n'}
+[4.703102] (projv1_manipulation) StdoutLine: {'line': b'running install\n'}
+[4.710634] (-) TimerEvent: {}
+[4.713607] (projv1_manipulation) StdoutLine: {'line': b'running install_lib\n'}
+[4.763760] (projv1_manipulation) StdoutLine: {'line': b'copying /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation/gazebo_cup_marker_node.py -> /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation\n'}
+[4.775245] (projv1_manipulation) StdoutLine: {'line': b'byte-compiling /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation/gazebo_cup_marker_node.py to gazebo_cup_marker_node.cpython-310.pyc\n'}
+[4.775699] (projv1_manipulation) StdoutLine: {'line': b'running install_data\n'}
+[4.776598] (projv1_manipulation) StdoutLine: {'line': b'copying resource/projv1_manipulation -> /home/user/projv1/install/projv1_manipulation/share/ament_index/resource_index/packages\n'}
+[4.776824] (projv1_manipulation) StdoutLine: {'line': b'copying package.xml -> /home/user/projv1/install/projv1_manipulation/share/projv1_manipulation\n'}
+[4.777297] (projv1_manipulation) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.813127] (-) TimerEvent: {}
+[4.916860] (-) TimerEvent: {}
+[4.917186] (projv1_manipulation) StdoutLine: {'line': b"removing '/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info' (and everything under it)\n"}
+[4.917411] (projv1_manipulation) StdoutLine: {'line': b'Copying ../../build/projv1_manipulation/projv1_manipulation.egg-info to /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info\n'}
+[4.918600] (projv1_manipulation) StdoutLine: {'line': b'running install_scripts\n'}
+[5.015029] (projv1_manipulation) StdoutLine: {'line': b'Installing direct_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation\n'}
+[5.015295] (projv1_manipulation) StdoutLine: {'line': b'Installing gazebo_cup_marker_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation\n'}
+[5.015410] (projv1_manipulation) StdoutLine: {'line': b'Installing moveit_above_cup_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation\n'}
+[5.015548] (projv1_manipulation) StdoutLine: {'line': b'Installing moveit_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation\n'}
+[5.015677] (projv1_manipulation) StdoutLine: {'line': b'Installing target_transform_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation\n'}
+[5.016581] (projv1_manipulation) StdoutLine: {'line': b"writing list of installed files to '/home/user/projv1/build/projv1_manipulation/install.log'\n"}
+[5.016926] (-) TimerEvent: {}
+[5.117355] (projv1_manipulation) CommandEnded: {'returncode': 0}
+[5.123740] (-) TimerEvent: {}
+[5.180706] (projv1_manipulation) JobEnded: {'identifier': 'projv1_manipulation', 'rc': 0}
+[5.182779] (-) EventReactorShutdown: {}

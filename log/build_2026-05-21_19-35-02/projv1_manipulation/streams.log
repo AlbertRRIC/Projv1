@@ -1,0 +1,35 @@
+[3.288s] Invoking command in '/home/user/projv1/src/projv1_manipulation': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_msgs LD_LIBRARY_PATH=/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/build/projv1_manipulation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages:/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/projv1_manipulation build --build-base /home/user/projv1/build/projv1_manipulation/build install --record /home/user/projv1/build/projv1_manipulation/install.log --single-version-externally-managed install_data
+[4.554s] running egg_info
+[4.590s] writing ../../build/projv1_manipulation/projv1_manipulation.egg-info/PKG-INFO
+[4.591s] writing dependency_links to ../../build/projv1_manipulation/projv1_manipulation.egg-info/dependency_links.txt
+[4.591s] writing entry points to ../../build/projv1_manipulation/projv1_manipulation.egg-info/entry_points.txt
+[4.592s] writing requirements to ../../build/projv1_manipulation/projv1_manipulation.egg-info/requires.txt
+[4.592s] writing top-level names to ../../build/projv1_manipulation/projv1_manipulation.egg-info/top_level.txt
+[4.731s] reading manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'
+[4.733s] writing manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'
+[4.733s] running build
+[4.734s] running build_py
+[4.734s] copying projv1_manipulation/gazebo_cup_marker_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.735s] copying projv1_manipulation/moveit_above_cup_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.735s] copying projv1_manipulation/direct_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.735s] copying projv1_manipulation/target_transform_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.736s] copying projv1_manipulation/__init__.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.736s] copying projv1_manipulation/moveit_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+[4.736s] running install
+[4.748s] running install_lib
+[4.815s] copying /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation/gazebo_cup_marker_node.py -> /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation
+[4.817s] byte-compiling /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation/gazebo_cup_marker_node.py to gazebo_cup_marker_node.cpython-310.pyc
+[4.821s] running install_data
+[4.821s] copying resource/projv1_manipulation -> /home/user/projv1/install/projv1_manipulation/share/ament_index/resource_index/packages
+[4.821s] copying package.xml -> /home/user/projv1/install/projv1_manipulation/share/projv1_manipulation
+[4.821s] running install_egg_info
+[4.987s] removing '/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info' (and everything under it)
+[4.987s] Copying ../../build/projv1_manipulation/projv1_manipulation.egg-info to /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info
+[4.991s] running install_scripts
+[5.076s] Installing direct_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+[5.077s] Installing gazebo_cup_marker_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+[5.077s] Installing moveit_above_cup_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+[5.077s] Installing moveit_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+[5.077s] Installing target_transform_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+[5.078s] writing list of installed files to '/home/user/projv1/build/projv1_manipulation/install.log'
+[5.168s] Invoked command in '/home/user/projv1/src/projv1_manipulation' returned '0': AMENT_PREFIX_PATH=/home/user/projv1/install/xarm_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/user/projv1/install/xarm_msgs LD_LIBRARY_PATH=/home/user/projv1/install/xarm_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/user/projv1/build/projv1_manipulation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages:/home/user/projv1/install/xarm_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/projv1_manipulation build --build-base /home/user/projv1/build/projv1_manipulation/build install --record /home/user/projv1/build/projv1_manipulation/install.log --single-version-externally-managed install_data

@@ -30,6 +30,7 @@ setup(
         #'moveit_target_node = projv1_manipulation.moveit_target_node:main',
         'moveit_pick_place_node = projv1_manipulation.moveit_pick_place_node:main',
         'moveit_above_cup_node = projv1_manipulation.moveit_above_cup_node:main',
+        'gazebo_cup_marker_node = projv1_manipulation.gazebo_cup_marker_node:main',
     ],
 },
 )

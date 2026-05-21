@@ -20,15 +20,14 @@ class YoloNode(Node):
 
         self.bridge = CvBridge()
 
-        # YOLO model
+        # Custom cup model
         self.model = YOLO(
             "/home/user/projv1/models/best.pt"
         )
 
-        # DNN face detector
-        self.face_net = cv2.dnn.readNetFromCaffe(
-            "/home/user/projv1/models/deploy.prototxt",
-            "/home/user/projv1/models/res10_300x300_ssd_iter_140000.caffemodel"
+        # Person detection model
+        self.person_model = YOLO(
+            "yolov8n.pt"
         )
 
         self.depth_image = None
@@ -94,7 +93,7 @@ class YoloNode(Node):
         )
 
         self.get_logger().info(
-            "YOLO + Face Censor Node Started"
+            "YOLO + FULL BODY CENSOR Node Started"
         )
 
     def target_base_callback(self, msg):
@@ -135,41 +134,29 @@ class YoloNode(Node):
         self.cx = msg.k[2]
         self.cy = msg.k[5]
 
-    def censor_faces(self, image):
+    def censor_people(self, image):
 
-        h, w = image.shape[:2]
-
-        blob = cv2.dnn.blobFromImage(
-            cv2.resize(image, (300, 300)),
-            1.0,
-            (300, 300),
-            (104.0, 177.0, 123.0)
+        # Detect persons using COCO model
+        results = self.person_model(
+            image,
+            conf=0.4,
+            classes=[0]   # class 0 = person
         )
 
-        self.face_net.setInput(blob)
+        for box in results[0].boxes:
 
-        detections = self.face_net.forward()
-
-        for i in range(detections.shape[2]):
-
-            confidence = detections[0, 0, i, 2]
-
-            if confidence < 0.5:
-                continue
-
-            box = (
-                detections[0, 0, i, 3:7]
-                * np.array([w, h, w, h])
+            x1, y1, x2, y2 = map(
+                int,
+                box.xyxy[0]
             )
 
-            x1, y1, x2, y2 = box.astype("int")
-
+            # Safety clamp
             x1 = max(0, x1)
             y1 = max(0, y1)
-            x2 = min(w, x2)
-            y2 = min(h, y2)
+            x2 = min(image.shape[1], x2)
+            y2 = min(image.shape[0], y2)
 
-            # Black opaque censor box
+            # FULL opaque black box
             cv2.rectangle(
                 image,
                 (x1, y1),
@@ -212,7 +199,7 @@ class YoloNode(Node):
             "bgr8"
         )
 
-        # Run YOLO
+        # Run cup YOLO
         results = self.model(
             frame,
             conf=0.4
@@ -221,12 +208,12 @@ class YoloNode(Node):
         # Create display image
         annotated = frame.copy()
 
-        # Censor faces
-        annotated = self.censor_faces(
+        # FULL BODY censor
+        annotated = self.censor_people(
             annotated
         )
 
-        # YOLO detections
+        # Cup detections
         for box in results[0].boxes:
 
             detected_class_id = int(box.cls[0])
@@ -235,7 +222,7 @@ class YoloNode(Node):
                 self.model.names[detected_class_id]
             )
 
-            # FILTER
+            # FILTER selected cup
             if detected_class_name != self.selected_class:
                 continue
 
