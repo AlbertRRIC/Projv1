@@ -10,7 +10,7 @@ from rclpy.executors import MultiThreadedExecutor
 
 from geometry_msgs.msg import PointStamped, PoseStamped
 from sensor_msgs.msg import JointState
-from control_msgs.action import FollowJointTrajectory, GripperCommand
+from control_msgs.action import FollowJointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.srv import GetPositionIK
 from moveit_msgs.msg import RobotState
@@ -28,6 +28,8 @@ class MoveItPickPlaceNode(Node):
         self.latest_joint_state = None
         self.saved_target = None
         self.initial_pose_done = False
+
+        self.sim_gripper = True
 
         self.joint_names = [
             'joint1', 'joint2', 'joint3', 'joint4',
@@ -87,25 +89,16 @@ class MoveItPickPlaceNode(Node):
             callback_group=self.callback_group
         )
 
-        self.gripper_action_client = ActionClient(
-            self,
-            GripperCommand,
-            '/xarm_gripper/gripper_action',
-            callback_group=self.callback_group
-        )
-
         self.create_timer(1.0, self.status_timer)
 
         self.get_logger().info("Waiting for /compute_ik service...")
         self.ik_client.wait_for_service()
 
-        self.get_logger().info("Waiting for arm trajectory action server...")
+        self.get_logger().info("Waiting for Gazebo arm trajectory action server...")
         self.arm_action_client.wait_for_server()
 
-        self.get_logger().info("Waiting for real gripper action server...")
-        self.gripper_action_client.wait_for_server()
-
-        self.get_logger().info("MoveIt coffee sequence node started")
+        self.get_logger().info("Gazebo MoveIt pick-place node started")
+        self.get_logger().info("Gripper is simulated/fake in this version")
 
     def deg_list(self, values):
         return [math.radians(v) for v in values]
@@ -158,7 +151,7 @@ class MoveItPickPlaceNode(Node):
             self.get_logger().warn(f"Rejected Y out of range: {y:.3f}")
             return
 
-        if z < 0.05 or z > 0.50:
+        if z < -0.05 or z > 0.50:
             self.get_logger().warn(f"Rejected Z out of range: {z:.3f}")
             return
 
@@ -327,40 +320,18 @@ class MoveItPickPlaceNode(Node):
         return False
 
     def send_gripper_goal(self, position):
-        goal_msg = GripperCommand.Goal()
-        goal_msg.command.position = float(position)
-        goal_msg.command.max_effort = 0.0
-
-        self.get_logger().info(f"Sending gripper goal: {position}")
-
-        future = self.gripper_action_client.send_goal_async(goal_msg)
-
-        if not self.wait_future(future, 5.0):
-            self.get_logger().warn("Gripper goal send timeout")
-            return False
-
-        goal_handle = future.result()
-
-        if not goal_handle.accepted:
-            self.get_logger().warn("Gripper goal rejected")
-            return False
-
-        result_future = goal_handle.get_result_async()
-
-        if not self.wait_future(result_future, 8.0):
-            self.get_logger().warn("Gripper result timeout")
-            return False
-
-        self.get_logger().info("Gripper motion complete")
+        self.get_logger().info(
+            f"[GAZEBO SIM] Pretending gripper moved to {position}"
+        )
         time.sleep(1.0)
         return True
 
     def open_gripper(self):
-        self.get_logger().info("Opening gripper to 550")
+        self.get_logger().info("Opening simulated gripper")
         return self.send_gripper_goal(self.GRIPPER_OPEN)
 
     def close_gripper(self):
-        self.get_logger().info("Closing gripper gently to 495")
+        self.get_logger().info("Closing simulated gripper")
         return self.send_gripper_goal(self.GRIPPER_HOLD)
 
     def move_to_pose(self, x, y, z, duration=8):
@@ -388,11 +359,11 @@ class MoveItPickPlaceNode(Node):
 
     def pick_coffee_sequence(self, x, y, z):
         self.get_logger().info(
-            f"Starting sequence at cup X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+            f"Starting Gazebo sequence at cup X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
         )
 
-        above_z = z + 0.08
-        pick_z = z - 0.02
+        above_z = z + 0.10
+        pick_z = z + 0.02
 
         if not self.open_gripper():
             self.busy = False
@@ -422,38 +393,18 @@ class MoveItPickPlaceNode(Node):
             self.busy = False
             return
 
-        self.get_logger().info("Cup at coffee machine. Waiting 10 seconds...")
-        time.sleep(10.0)
-
-        if not self.close_gripper():
-            self.busy = False
-            return
-
-        if not self.send_arm_goal(self.after_pick_pose, duration=10):
-            self.busy = False
-            return
+        self.get_logger().info("Simulated cup placed at coffee machine")
+        time.sleep(3.0)
 
         if not self.send_arm_goal(self.consumer_place_pose, duration=10):
             self.busy = False
             return
 
-        if not self.move_to_pose(x, y, pick_z, duration=8):
+        if not self.send_arm_goal(self.initial_detect_pose, duration=10):
             self.busy = False
             return
 
-        if not self.open_gripper():
-            self.busy = False
-            return
-
-        time.sleep(1.0)
-
-        if not self.move_to_pose(x, y, above_z, duration=8):
-            self.busy = False
-            return
-
-        self.send_arm_goal(self.initial_detect_pose, duration=10)
-
-        self.get_logger().info("Full coffee cup sequence complete")
+        self.get_logger().info("Gazebo simulated coffee sequence complete")
         self.busy = False
 
 

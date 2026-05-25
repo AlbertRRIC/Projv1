@@ -1,0 +1,50 @@
+[0.150s] Invoking command in '/home/user/projv1/build/xarm_sdk': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_sdk -- -j4 -l4
+[0.512s] [100%] Built target xarm_cxx_sdk
+[1.546s] Invoked command in '/home/user/projv1/build/xarm_sdk' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/xarm_sdk -- -j4 -l4
+[1.584s] Invoking command in '/home/user/projv1/build/xarm_sdk': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_sdk
+[1.654s] -- Install configuration: ""
+[1.658s] -- Execute custom install script
+[1.658s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/library_path.sh
+[1.660s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/library_path.dsv
+[1.672s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/serial/impl/unix.h
+[1.672s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/serial/impl/win.h
+[1.673s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/serial/serial.h
+[1.673s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/serial/v8stdint.h
+[1.673s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/crc16.h
+[1.675s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/data_type.h
+[1.675s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/common/queue_memcpy.h
+[1.680s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/connect.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/debug/debug_print.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/servo3_config.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_config.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_ser.h
+[1.690s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/instruction/uxbus_cmd_tcp.h
+[1.698s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os/bak/thread.h
+[1.699s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/os/network.h
+[1.702s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/port/ser.h
+[1.702s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/port/socket.h
+[1.702s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/report_data.h
+[1.702s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/core/xarm_config.h
+[1.702s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/common/timer.h
+[1.706s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/common/utils.h
+[1.706s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/cxx/include/xarm/wrapper/xarm_api.h
+[1.709s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/lib/libxarm_cxx_sdk.so
+[1.711s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/package_run_dependencies/xarm_sdk
+[1.717s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/parent_prefix_path/xarm_sdk
+[1.717s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/ament_prefix_path.sh
+[1.727s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/ament_prefix_path.dsv
+[1.730s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/path.sh
+[1.730s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/environment/path.dsv
+[1.731s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.bash
+[1.736s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.sh
+[1.736s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.zsh
+[1.737s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/local_setup.dsv
+[1.742s] -- Symlinking: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/package.dsv
+[1.810s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/ament_index/resource_index/packages/xarm_sdk
+[1.813s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/ament_cmake_export_libraries-extras.cmake
+[1.817s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.818s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/xarm_sdkConfig.cmake
+[1.829s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/cmake/xarm_sdkConfig-version.cmake
+[1.829s] -- Up-to-date symlink: /home/user/projv1/install/xarm_sdk/share/xarm_sdk/package.xml
+[1.836s] Invoked command in '/home/user/projv1/build/xarm_sdk' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/xarm_sdk

@@ -1,0 +1,33 @@
+[4.734s] Invoking command in '/home/user/projv1/src/xarm_ros2/uf_ros_lib': PYTHONPATH=/home/user/projv1/build/uf_ros_lib/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/uf_ros_lib/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/uf_ros_lib build --build-base /home/user/projv1/build/uf_ros_lib/build install --record /home/user/projv1/build/uf_ros_lib/install.log --single-version-externally-managed install_data
+[6.736s] /home/user/.local/lib/python3.10/site-packages/setuptools/_distutils/dist.py:287: UserWarning: Unknown distribution option: 'tests_require'
+[6.736s]   warnings.warn(msg)
+[7.397s] running egg_info
+[7.437s] writing ../../../build/uf_ros_lib/uf_ros_lib.egg-info/PKG-INFO
+[7.437s] writing dependency_links to ../../../build/uf_ros_lib/uf_ros_lib.egg-info/dependency_links.txt
+[7.437s] writing requirements to ../../../build/uf_ros_lib/uf_ros_lib.egg-info/requires.txt
+[7.438s] writing top-level names to ../../../build/uf_ros_lib/uf_ros_lib.egg-info/top_level.txt
+[7.544s] reading manifest file '../../../build/uf_ros_lib/uf_ros_lib.egg-info/SOURCES.txt'
+[7.544s] writing manifest file '../../../build/uf_ros_lib/uf_ros_lib.egg-info/SOURCES.txt'
+[7.544s] running build
+[7.544s] running build_py
+[7.544s] copying uf_ros_lib/uf_robot_utils.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib
+[7.545s] copying uf_ros_lib/__init__.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib
+[7.545s] copying uf_ros_lib/moveit_configs_builder.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib
+[7.545s] copying uf_ros_lib/parameter_descriptions.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib
+[7.548s] copying uf_ros_lib/substitutions/__init__.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.550s] copying uf_ros_lib/substitutions/planning_pipelines.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.550s] copying uf_ros_lib/substitutions/controllers.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.550s] copying uf_ros_lib/substitutions/joint_limits.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.550s] copying uf_ros_lib/substitutions/kinematics.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.550s] copying uf_ros_lib/substitutions/common.py -> /home/user/projv1/build/uf_ros_lib/build/lib/uf_ros_lib/substitutions
+[7.554s] running install
+[7.561s] running install_lib
+[7.607s] running install_data
+[7.608s] copying resource/uf_ros_lib -> /home/user/projv1/install/uf_ros_lib/share/ament_index/resource_index/packages
+[7.616s] copying package.xml -> /home/user/projv1/install/uf_ros_lib/share/uf_ros_lib
+[7.616s] running install_egg_info
+[7.708s] removing '/home/user/projv1/install/uf_ros_lib/lib/python3.10/site-packages/uf_ros_lib-0.0.0-py3.10.egg-info' (and everything under it)
+[7.708s] Copying ../../../build/uf_ros_lib/uf_ros_lib.egg-info to /home/user/projv1/install/uf_ros_lib/lib/python3.10/site-packages/uf_ros_lib-0.0.0-py3.10.egg-info
+[7.708s] running install_scripts
+[7.901s] writing list of installed files to '/home/user/projv1/build/uf_ros_lib/install.log'
+[8.524s] Invoked command in '/home/user/projv1/src/xarm_ros2/uf_ros_lib' returned '0': PYTHONPATH=/home/user/projv1/build/uf_ros_lib/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/uf_ros_lib/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/uf_ros_lib build --build-base /home/user/projv1/build/uf_ros_lib/build install --record /home/user/projv1/build/uf_ros_lib/install.log --single-version-externally-managed install_data

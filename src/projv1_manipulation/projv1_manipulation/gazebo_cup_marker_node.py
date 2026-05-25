@@ -117,7 +117,7 @@ class GazeboCupMarkerNode(Node):
             self.get_logger().warn(f"Rejected Y: {y:.3f}")
             return False
 
-        if z < 0.02 or z > 0.60:
+        if z < 0.01 or z > 0.60:
             self.get_logger().warn(f"Rejected Z: {z:.3f}")
             return False
 

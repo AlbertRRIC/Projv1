@@ -1,0 +1,30 @@
+[2.305s] Invoking command in '/home/user/projv1/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/realsense_gazebo_plugin -- -j4 -l4
+[2.489s] [100%] Built target realsense_gazebo_plugin
+[2.490s] Invoked command in '/home/user/projv1/build/realsense_gazebo_plugin' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --build /home/user/projv1/build/realsense_gazebo_plugin -- -j4 -l4
+[2.490s] Invoking command in '/home/user/projv1/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/realsense_gazebo_plugin
+[2.491s] -- Install configuration: ""
+[2.491s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/lib/librealsense_gazebo_plugin.so
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/include/
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/include//realsense_gazebo_plugin
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/include//realsense_gazebo_plugin/RealSensePlugin.h
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/include//realsense_gazebo_plugin/gazebo_ros_realsense.h
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/library_path.sh
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/library_path.dsv
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/ament_index/resource_index/package_run_dependencies/realsense_gazebo_plugin
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/ament_index/resource_index/parent_prefix_path/realsense_gazebo_plugin
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/ament_prefix_path.sh
+[2.493s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/ament_prefix_path.dsv
+[2.494s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/path.sh
+[2.494s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/environment/path.dsv
+[2.496s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/local_setup.bash
+[2.496s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/local_setup.sh
+[2.496s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/local_setup.zsh
+[2.497s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/local_setup.dsv
+[2.497s] -- Installing: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/package.dsv
+[2.497s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/ament_index/resource_index/packages/realsense_gazebo_plugin
+[2.497s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.498s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/ament_cmake_export_libraries-extras.cmake
+[2.498s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig.cmake
+[2.498s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig-version.cmake
+[2.498s] -- Up-to-date: /home/user/projv1/install/realsense_gazebo_plugin/share/realsense_gazebo_plugin/package.xml
+[2.505s] Invoked command in '/home/user/projv1/build/realsense_gazebo_plugin' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/projv1/install/projv1_manipulation:/home/user/projv1/install/uf_ros_lib:/home/user/projv1/install/realsense2_ros_mqtt_bridge:/home/user/projv1/install/projv1_vision:/opt/ros/humble /usr/bin/cmake --install /home/user/projv1/build/realsense_gazebo_plugin

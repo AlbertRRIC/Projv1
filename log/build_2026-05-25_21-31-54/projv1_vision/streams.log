@@ -1,0 +1,28 @@
+[4.679s] Invoking command in '/home/user/projv1/src/projv1_vision': PYTHONPATH=/home/user/projv1/build/projv1_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/projv1_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/projv1_vision build --build-base /home/user/projv1/build/projv1_vision/build install --record /home/user/projv1/build/projv1_vision/install.log --single-version-externally-managed install_data
+[6.583s] running egg_info
+[6.619s] writing ../../build/projv1_vision/projv1_vision.egg-info/PKG-INFO
+[6.620s] writing dependency_links to ../../build/projv1_vision/projv1_vision.egg-info/dependency_links.txt
+[6.620s] writing entry points to ../../build/projv1_vision/projv1_vision.egg-info/entry_points.txt
+[6.621s] writing requirements to ../../build/projv1_vision/projv1_vision.egg-info/requires.txt
+[6.627s] writing top-level names to ../../build/projv1_vision/projv1_vision.egg-info/top_level.txt
+[6.760s] reading manifest file '../../build/projv1_vision/projv1_vision.egg-info/SOURCES.txt'
+[6.775s] writing manifest file '../../build/projv1_vision/projv1_vision.egg-info/SOURCES.txt'
+[6.778s] running build
+[6.779s] running build_py
+[6.787s] copying projv1_vision/__init__.py -> /home/user/projv1/build/projv1_vision/build/lib/projv1_vision
+[6.802s] copying projv1_vision/select_class_node.py -> /home/user/projv1/build/projv1_vision/build/lib/projv1_vision
+[6.802s] copying projv1_vision/yolov2_node.py -> /home/user/projv1/build/projv1_vision/build/lib/projv1_vision
+[6.802s] running install
+[6.865s] running install_lib
+[7.559s] running install_data
+[7.560s] copying resource/projv1_vision -> /home/user/projv1/install/projv1_vision/share/ament_index/resource_index/packages
+[7.560s] copying package.xml -> /home/user/projv1/install/projv1_vision/share/projv1_vision
+[7.560s] running install_egg_info
+[7.829s] removing '/home/user/projv1/install/projv1_vision/lib/python3.10/site-packages/projv1_vision-0.0.0-py3.10.egg-info' (and everything under it)
+[7.829s] Copying ../../build/projv1_vision/projv1_vision.egg-info to /home/user/projv1/install/projv1_vision/lib/python3.10/site-packages/projv1_vision-0.0.0-py3.10.egg-info
+[7.829s] running install_scripts
+[8.139s] Installing select_class_node script to /home/user/projv1/install/projv1_vision/lib/projv1_vision
+[8.140s] Installing target_transform_node script to /home/user/projv1/install/projv1_vision/lib/projv1_vision
+[8.141s] Installing yolov2_node script to /home/user/projv1/install/projv1_vision/lib/projv1_vision
+[8.150s] writing list of installed files to '/home/user/projv1/build/projv1_vision/install.log'
+[8.650s] Invoked command in '/home/user/projv1/src/projv1_vision' returned '0': PYTHONPATH=/home/user/projv1/build/projv1_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/projv1/install/projv1_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/projv1_vision build --build-base /home/user/projv1/build/projv1_vision/build install --record /home/user/projv1/build/projv1_vision/install.log --single-version-externally-managed install_data

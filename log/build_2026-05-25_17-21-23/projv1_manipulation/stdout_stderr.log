@@ -1,0 +1,31 @@
+running egg_info
+writing ../../build/projv1_manipulation/projv1_manipulation.egg-info/PKG-INFO
+writing dependency_links to ../../build/projv1_manipulation/projv1_manipulation.egg-info/dependency_links.txt
+writing entry points to ../../build/projv1_manipulation/projv1_manipulation.egg-info/entry_points.txt
+writing requirements to ../../build/projv1_manipulation/projv1_manipulation.egg-info/requires.txt
+writing top-level names to ../../build/projv1_manipulation/projv1_manipulation.egg-info/top_level.txt
+reading manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'
+writing manifest file '../../build/projv1_manipulation/projv1_manipulation.egg-info/SOURCES.txt'
+running build
+running build_py
+copying projv1_manipulation/gazebo_cup_marker_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+copying projv1_manipulation/moveit_above_cup_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+copying projv1_manipulation/direct_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+copying projv1_manipulation/target_transform_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+copying projv1_manipulation/__init__.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+copying projv1_manipulation/moveit_pick_place_node.py -> /home/user/projv1/build/projv1_manipulation/build/lib/projv1_manipulation
+running install
+running install_lib
+running install_data
+copying resource/projv1_manipulation -> /home/user/projv1/install/projv1_manipulation/share/ament_index/resource_index/packages
+copying package.xml -> /home/user/projv1/install/projv1_manipulation/share/projv1_manipulation
+running install_egg_info
+removing '/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/projv1_manipulation/projv1_manipulation.egg-info to /home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation-0.0.0-py3.10.egg-info
+running install_scripts
+Installing direct_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+Installing gazebo_cup_marker_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+Installing moveit_above_cup_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+Installing moveit_pick_place_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+Installing target_transform_node script to /home/user/projv1/install/projv1_manipulation/lib/projv1_manipulation
+writing list of installed files to '/home/user/projv1/build/projv1_manipulation/install.log'
