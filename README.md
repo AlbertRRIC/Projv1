@@ -14,6 +14,7 @@
 - (2026-05-14) Completed YOLO Detection + Intel Realsense D435i Camera Integration
 - (2026-05-14) Processing Gazebo + pickplacenode
 - (2026-05-15) Added Selection Node
+- (2026-05-16) Linked eef with both Camera + Gripper
 
 ## 3. Preparation
 
