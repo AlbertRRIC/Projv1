@@ -100,7 +100,7 @@ __Reminder 4: The <hw_ns> described below is replaced with the actual one, the x
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/projv1/install/setup.bash
-ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py add_realsense_d435i:=true add_d435i_links:=true
+ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py
 
 ```
 
@@ -143,15 +143,9 @@ enable_depth:=true
 
 ```
 
-- ### 5.4 Terminal 4- Camera TF ( DLT )
+- ### 5.4 Terminal 4- BLANK ( DLT )
     
 ```bash
-cd ~/projv1
-source install/setup.bash
-
-ros2 run tf2_ros static_transform_publisher \
-0.2 0.0 0.2 0 0 0 \
-link_base camera_link
 
 ```
 
