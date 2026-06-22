@@ -92,7 +92,6 @@ cd ~/projv1/
 source install/setup.bash
 ```
 __Reminder 3： All following instructions will base on xArm7__
-__Reminder 4: The <hw_ns> described below is replaced with the actual one, the xarm series defaults is xarm, and the rest defaults is ufactory__  
 
 
 - ### 5.1 Terminal 1- Gazebo
