@@ -231,3 +231,81 @@ ros2 run projv1_manipulation gazebo_cup_marker_node
    
    Green cup should be spawned in Gazebo
 
+
+## 6. Edit Detected Object
+
+```bash
+cd ~/projv1
+source install/setup.bash
+
+```
+- Download the dataset from roboflow
+- Put the unzipped dataset into the folder dataset
+
+```bash
+sudo apt update
+pip install "numpy>=1.23,<2"
+yolo detect train \
+  data=dataset/data.yaml \
+  model=yolo11n.pt \
+  epochs=50 \
+  imgsz=640
+
+```
+After training
+```bash
+pip install "numpy<2"
+
+```
+Expected example:
+runs/detect/train-3/weights/best.pt
+
+Change train-? and remove the prev best.pt
+```bash
+
+cp runs/detect/train-3/weights/best.pt ~/projv1/models/
+
+```
+How ws should look
+
+projv1/
+├── src/
+│   ├── xarm_ros2/                  # official xArm repo
+│   ├── realsense-ros/              # camera driver
+│
+│   ├── projv1_vision/              # YOUR vision package
+│   │   ├── projv1_vision/
+│   │   │   ├── yolo_node.py
+│   │   │   └── __init__.py
+│   │   ├── package.xml
+│   │   ├── setup.py
+│   │   └── resource/
+│
+│   ├── projv1_manipulation/        # (later: MoveIt + robot control)
+│   │   ├── projv1_manipulation/
+│   │   ├── package.xml
+│   │   └── setup.py
+│
+├── models/                         # ⭐ your trained models
+│   └── best.pt
+│
+├── training/                       # ⭐ training workspace (NOT ROS)
+│   ├── dataset/
+│   │   ├── train/
+│   │   ├── valid/
+│   │   ├── test/
+│   │   └── data.yaml
+│   │
+│   ├── runs/
+│   │   └── detect/
+│   │       └── train-3/
+│   │           └── weights/
+│   │               ├── best.pt
+│   │               └── last.pt
+│   │
+│   └── (optional venv/)
+│
+├── build/                          # auto-generated
+├── install/                        # auto-generated
+└── log/                            # auto-generated
+
