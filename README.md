@@ -266,7 +266,7 @@ Change train-? and remove the prev best.pt
 cp runs/detect/train-3/weights/best.pt ~/projv1/models/
 
 ```
-How ws should look
+How ws should look ( View in the code tab )
 
 projv1/
 ├── src/
