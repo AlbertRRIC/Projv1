@@ -232,7 +232,14 @@ ros2 run projv1_manipulation gazebo_cup_marker_node
    Green cup should be spawned in Gazebo
 
 
-## 6. Edit Detected Object
+## 6. Troubelshoot
+
+- ### 6.1 View the TF frame link
+```bash
+ros2 run tf2_tools view_frames
+```
+
+- ### 6.2 Change of Detected Object
 
 ```bash
 cd ~/projv1
