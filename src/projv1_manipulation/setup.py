@@ -24,12 +24,10 @@ setup(
     },
     entry_points={
     'console_scripts': [
-        'direct_pick_place_node = projv1_manipulation.direct_pick_place_node:main',
-        #'move_node = projv1_manipulation.move_node:main',
+       
         'target_transform_node = projv1_manipulation.target_transform_node:main',
-        #'moveit_target_node = projv1_manipulation.moveit_target_node:main',
         'moveit_pick_place_node = projv1_manipulation.moveit_pick_place_node:main',
-        'moveit_above_cup_node = projv1_manipulation.moveit_above_cup_node:main',
+        'fake_moveit_pick_place_node = projv1_manipulation.fake_moveit_pick_place_node:main',
         'gazebo_cup_marker_node = projv1_manipulation.gazebo_cup_marker_node:main',
     ],
 },

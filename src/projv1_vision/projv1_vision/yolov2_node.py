@@ -18,14 +18,19 @@ class YoloNode(Node):
     def __init__(self):
         super().__init__('yolo_node')
 
+        if int(np.__version__.split('.')[0]) >= 2:
+            self.get_logger().error(
+                f"Detected NumPy {np.__version__}. "
+                "This version is incompatible with cv_bridge on ROS Humble. "
+                "Please run: pip install 'numpy<2.0'"
+            )
+
         self.bridge = CvBridge()
 
-        # Custom cup model
         self.model = YOLO(
             "/home/user/projv1/models/best.pt"
         )
 
-        # Person detection model
         self.person_model = YOLO(
             "yolov8n.pt"
         )
@@ -37,18 +42,14 @@ class YoloNode(Node):
         self.cx = None
         self.cy = None
 
-        self.latest_target_base = None
-
         self.selected_class = None
 
-        # Publisher
         self.publisher_ = self.create_publisher(
             PointStamped,
             '/detected_target',
             10
         )
 
-        # RGB image subscriber
         self.create_subscription(
             Image,
             '/camera/camera/color/image_raw',
@@ -56,7 +57,6 @@ class YoloNode(Node):
             10
         )
 
-        # Depth image subscriber
         self.create_subscription(
             Image,
             '/camera/camera/aligned_depth_to_color/image_raw',
@@ -64,7 +64,6 @@ class YoloNode(Node):
             10
         )
 
-        # Camera info subscriber
         self.create_subscription(
             CameraInfo,
             '/camera/camera/color/camera_info',
@@ -72,15 +71,6 @@ class YoloNode(Node):
             10
         )
 
-        # Robot base coordinate subscriber
-        self.create_subscription(
-            PointStamped,
-            '/target_base',
-            self.target_base_callback,
-            10
-        )
-
-        # Selected class subscriber
         self.create_subscription(
             String,
             '/selected_class',
@@ -93,70 +83,54 @@ class YoloNode(Node):
         )
 
         self.get_logger().info(
-            "YOLO + FULL BODY CENSOR Node Started"
+            "YOLO ROS Camera XYZ Display Node Started"
         )
 
-    def target_base_callback(self, msg):
-
-        self.latest_target_base = msg
-
     def selected_class_callback(self, msg):
-
         class_name = msg.data.strip()
 
         if class_name in ["Browncup", "Whitecup"]:
-
             self.selected_class = class_name
 
             self.get_logger().info(
-                f"Selected class updated: "
-                f"{self.selected_class}"
+                f"Selected class updated: {self.selected_class}"
             )
 
         else:
-
             self.get_logger().warn(
-                f"Invalid class selected: "
-                f"{class_name}"
+                f"Invalid class selected: {class_name}"
             )
 
     def depth_callback(self, msg):
-
         self.depth_image = self.bridge.imgmsg_to_cv2(
             msg,
             desired_encoding="passthrough"
         )
 
     def camera_info_callback(self, msg):
-
         self.fx = msg.k[0]
         self.fy = msg.k[4]
         self.cx = msg.k[2]
         self.cy = msg.k[5]
 
     def censor_people(self, image):
-
-        # Detect persons using COCO model
         results = self.person_model(
             image,
             conf=0.4,
-            classes=[0]   # class 0 = person
+            classes=[0]
         )
 
         for box in results[0].boxes:
-
             x1, y1, x2, y2 = map(
                 int,
                 box.xyxy[0]
             )
 
-            # Safety clamp
             x1 = max(0, x1)
             y1 = max(0, y1)
             x2 = min(image.shape[1], x2)
             y2 = min(image.shape[0], y2)
 
-            # FULL opaque black box
             cv2.rectangle(
                 image,
                 (x1, y1),
@@ -167,31 +141,38 @@ class YoloNode(Node):
 
         return image
 
+    def depth_to_meters(self, depth_raw):
+        if self.depth_image.dtype == np.uint16:
+            return float(depth_raw) / 1000.0
+
+        return float(depth_raw)
+
+    def draw_xyz_text(self, image, lines, x, y):
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 0.6
+        thickness = 2
+        line_height = 24
+
+        for i, line in enumerate(lines):
+            cv2.putText(
+                image,
+                line,
+                (x, y + i * line_height),
+                font,
+                font_scale,
+                (0, 255, 0),
+                thickness
+            )
+
     def image_callback(self, msg):
-
-        if self.depth_image is None:
-
-            self.get_logger().warn(
-                "Waiting for depth image..."
-            )
-
-            return
-
-        if self.fx is None:
-
-            self.get_logger().warn(
-                "Waiting for camera info..."
-            )
-
-            return
-
-        if self.selected_class is None:
-
-            self.get_logger().warn(
-                "Waiting for selected class "
-                "from /selected_class..."
-            )
-
+        if any(v is None for v in [
+            self.depth_image,
+            self.fx,
+            self.fy,
+            self.cx,
+            self.cy,
+            self.selected_class
+        ]):
             return
 
         frame = self.bridge.imgmsg_to_cv2(
@@ -199,127 +180,108 @@ class YoloNode(Node):
             "bgr8"
         )
 
-        # Run cup YOLO
         results = self.model(
             frame,
             conf=0.4
         )
 
-        # Create display image
         annotated = frame.copy()
 
-        # FULL BODY censor
         annotated = self.censor_people(
             annotated
         )
 
-        # Cup detections
+        found_target = False
+
         for box in results[0].boxes:
-
             detected_class_id = int(box.cls[0])
+            detected_class_name = self.model.names[detected_class_id]
 
-            detected_class_name = (
-                self.model.names[detected_class_id]
-            )
-
-            # FILTER selected cup
             if detected_class_name != self.selected_class:
                 continue
 
-            # Bounding box
+            found_target = True
+
             x1, y1, x2, y2 = box.xyxy[0]
+
+            x1_i = int(x1)
+            y1_i = int(y1)
+            x2_i = int(x2)
+            y2_i = int(y2)
 
             cv2.rectangle(
                 annotated,
-                (int(x1), int(y1)),
-                (int(x2), int(y2)),
+                (x1_i, y1_i),
+                (x2_i, y2_i),
                 (0, 255, 0),
                 2
             )
 
-            # Center point
             u = int((x1 + x2) / 2)
             v = int((y1 + y2) / 2)
 
-            # Bounds check
             if (
-                v < 3 or
-                v >= self.depth_image.shape[0] - 3 or
-                u < 3 or
-                u >= self.depth_image.shape[1] - 3
+                v < 5 or
+                v >= self.depth_image.shape[0] - 5 or
+                u < 5 or
+                u >= self.depth_image.shape[1] - 5
             ):
+                self.get_logger().warn(
+                    "Target centre is too close to image boundary"
+                )
                 continue
 
-            # Get nearby depth
             depth_crop = self.depth_image[
-                v-3:v+4,
-                u-3:u+4
+                v - 5:v + 6,
+                u - 5:u + 6
             ]
 
-            valid_depths = (
-                depth_crop[depth_crop > 0]
-            )
+            valid_depths = depth_crop[
+                np.isfinite(depth_crop) & (depth_crop > 0)
+            ]
 
             if valid_depths.size == 0:
-
-                self.get_logger().warn(
-                    "No valid depth"
-                )
-
+                self.get_logger().warn("No valid depth")
                 continue
 
             depth_raw = np.median(valid_depths)
+            depth_m = self.depth_to_meters(depth_raw)
 
-            if depth_raw == 0:
-
+            if depth_m <= 0.0 or depth_m > 5.0:
                 self.get_logger().warn(
-                    "Depth is 0"
+                    f"Rejected unrealistic depth: {depth_m:.3f} m"
                 )
-
                 continue
 
-            depth_m = float(depth_raw) / 1000.0
+            # Optical camera coordinates from RealSense projection
+            optical_x = (u - self.cx) * depth_m / self.fx
+            optical_y = (v - self.cy) * depth_m / self.fy
+            optical_z = depth_m
 
-            # Camera coordinates
-            x = (
-                (u - self.cx)
-                * depth_m
-                / self.fx
-            )
+            # Convert optical XYZ to ROS camera-frame XYZ
+            # ROS camera frame:
+            # X = forward
+            # Y = left
+            # Z = up
+            ros_x = optical_z
+            ros_y = -optical_x
+            ros_z = -optical_y
 
-            y = (
-                (v - self.cy)
-                * depth_m
-                / self.fy
-            )
-
-            z = depth_m
-
-            # Publish target point
             target = PointStamped()
+            target.header.stamp = msg.header.stamp
+            target.header.frame_id = "camera_color_frame"
 
-            target.header.stamp = (
-                self.get_clock().now().to_msg()
-            )
-
-            target.header.frame_id = (
-                "camera_color_optical_frame"
-            )
-
-            target.point.x = x
-            target.point.y = y
-            target.point.z = z
+            target.point.x = ros_x
+            target.point.y = ros_y
+            target.point.z = ros_z
 
             self.publisher_.publish(target)
 
             self.get_logger().info(
-                f"{self.selected_class} -> "
-                f"X={x:.3f}, "
-                f"Y={y:.3f}, "
-                f"Z={z:.3f}"
+                f"{self.selected_class} ROS Camera XYZ: "
+                f"X={ros_x:.3f}, Y={ros_y:.3f}, Z={ros_z:.3f}"
             )
 
-            # Draw center point
             cv2.circle(
                 annotated,
                 (u, v),
@@ -328,40 +290,36 @@ class YoloNode(Node):
                 -1
             )
 
-            # Robot base coordinate
-            if self.latest_target_base is not None:
+            text_lines = [
+                f"{self.selected_class}",
+                f"ROS Cam X: {ros_x:.3f} m",
+                f"ROS Cam Y: {ros_y:.3f} m",
+                f"ROS Cam Z: {ros_z:.3f} m"
+            ]
 
-                bx = self.latest_target_base.point.x
-                by = self.latest_target_base.point.y
-                bz = self.latest_target_base.point.z
+            text_x = x1_i
+            text_y = max(25, y1_i - 100)
 
-                label = (
-                    f"{self.selected_class} "
-                    f"Base "
-                    f"X:{bx:.2f} "
-                    f"Y:{by:.2f} "
-                    f"Z:{bz:.2f}"
-                )
+            self.draw_xyz_text(
+                annotated,
+                text_lines,
+                text_x,
+                text_y
+            )
 
-            else:
-
-                label = (
-                    "Waiting for /target_base"
-                )
-
+        if not found_target:
             cv2.putText(
                 annotated,
-                label,
-                (int(x1), int(y1) - 10),
+                f"Selected: {self.selected_class} | No target",
+                (20, 30),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.5,
-                (0, 255, 0),
+                0.7,
+                (0, 255, 255),
                 2
             )
 
-        # Show image
         cv2.imshow(
-            "YOLO 3D Detection",
+            "YOLO ROS Camera XYZ Detection",
             annotated
         )
 
@@ -369,15 +327,16 @@ class YoloNode(Node):
 
 
 def main(args=None):
-
     rclpy.init(args=args)
 
     node = YoloNode()
 
-    rclpy.spin(node)
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
 
     node.destroy_node()
-
     rclpy.shutdown()
 
 

@@ -1,4 +1,0 @@
-  File "/home/user/projv1/install/projv1_manipulation/lib/python3.10/site-packages/projv1_manipulation/moveit_pick_place_node.py", line 253
-    current_joint_map = dict(
-SyntaxError: expected 'except' or 'finally' block
-

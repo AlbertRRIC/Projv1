@@ -9,12 +9,11 @@
 &ensp;&ensp;&ensp;&ensp;Please switch to the corresponding code branch according to different ros2 versions (no corresponding code branch means it has not been tested in this version)
 - 
 - Humble: [humble](https://github.com/xArm-Developer/xarm_ros2/tree/humble)
+- 
 
 ## 2. Update History    
-- (2026-05-14) Completed YOLO Detection + Intel Realsense D435i Camera Integration
-- (2026-05-14) Processing Gazebo + pickplacenode
-- (2026-05-15) Added Selection Node
-- (2026-05-16) Linked eef with both Camera + Gripper
+(2026-05-14) Completed YOLO Detection + Intel Realsense D435i Camera Integration
+(2026-05-14) Processing Gazebo + pickplacenode 
 
 ## 3. Preparation
 
@@ -33,22 +32,22 @@
 - ### 4.1 Create a workspace
     ```bash
     # Skip this step if you already have a target workspace
-    cd ~/projv1
-    mkdir -p projv1/src
+    cd ~
+    mkdir -p dev_ws/src
     ```
 
 - ### 4.2 Obtain source code of "Projv1" repository
     ```bash
     # Remember to source ros2 environment settings first
-    cd ~/projv1/src
+    cd ~/dev_ws/src
     # DO NOT omit "--recursive"，or the source code of dependent submodule will not be downloaded.
     # Pay attention to the use of the -b parameter command branch, $ROS_DISTRO indicates the currently activated ROS version, if the ROS environment is not activated, you need to customize the specified branch (foxy/galactic/humble)
-    git clone https://github.com/AlbertRRIC/Projv1 --recursive -b $ROS_DISTRO
+    git clone https://github.com/xArm-Developer/xarm_ros2.git --recursive -b $ROS_DISTRO
     ```
 
 - ### 4.3 Update "Projv1" repository 
     ```bash
-    cd ~/projv1
+    cd ~/dev_ws/src/Projv1
 
     # If you did not use the --recursive or --recurse-submodules option when cloning, use this command to initialize and update all submodules
     git submodule update --init --recursive
@@ -60,7 +59,7 @@
 - ### 4.4 Install dependencies
     ```bash
     # Remember to source ros2 environment settings first
-    cd ~/projv1/src/
+    cd ~/dev_ws/src/
     rosdep update
     rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
     ```
@@ -68,15 +67,12 @@
 - ### 4.5 Build Projv1
     ```bash
     # Remember to source ros2 and moveit2 environment settings first
-    cd ~/projv1/
+    cd ~/dev_ws/
     # build all packages
     colcon build
-   ```
-    ```bash 
-    # build selected packages
-    colcon build --packages-select projv1_vision
-    source install/setup.bash
     
+    # build selected packages
+    colcon build --packages-select Projv1
     ```
 
 
@@ -88,10 +84,11 @@ __Reminder 1: If there are multiple people using ros2 in the current LAN, in ord
 __Reminder 2： Remember to source the environment setup script before running any applications in xarm_ros2__  
 
 ```bash
-cd ~/projv1/
+cd ~/dev_ws/
 source install/setup.bash
 ```
 __Reminder 3： All following instructions will base on xArm7__
+__Reminder 4: The <hw_ns> described below is replaced with the actual one, the xarm series defaults is xarm, and the rest defaults is ufactory__  
 
 
 - ### 5.1 Terminal 1- Gazebo
@@ -99,7 +96,7 @@ __Reminder 3： All following instructions will base on xArm7__
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/projv1/install/setup.bash
-ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py
+ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py add_realsense_d435i:=true add_d435i_links:=true
 
 ```
 
@@ -117,16 +114,20 @@ ros2 control list_controllers
 ros2 control load_controller --set-state active joint_state_broadcaster
 ros2 control load_controller --set-state active xarm7_traj_controller
 
+
 ```
    Check:
 ```bash
 ros2 control list_controllers
+
 
 ```
    Make sure Output:
 ```bash
 joint_state_broadcaster active
 xarm7_traj_controller active
+
+
 
 ```
 - ### 5.3 Terminal 3- RealSense Camera
@@ -140,11 +141,18 @@ align_depth.enable:=true \
 enable_color:=true \
 enable_depth:=true
 
+
 ```
 
-- ### 5.4 Terminal 4- BLANK ( DLT )
+- ### 5.4 Terminal 4- DLT
     
 ```bash
+cd ~/projv1
+source install/setup.bash
+
+
+
+
 
 ```
 
@@ -155,6 +163,8 @@ cd ~/projv1
 source install/setup.bash
 ros2 run projv1_vision select_class_node
 
+
+
 ```
 For troubleshooting
 
@@ -163,6 +173,8 @@ On another Terminal
 cd ~/projv1
 source install/setup.bash
 ros2 topic echo /selected_class
+
+
 
 ```
 You should see this output:
@@ -173,7 +185,9 @@ data: Browncup
 ```bash
 cd ~/projv1
 source install/setup.bash
-ros2 run projv1_vision yolov2_node
+ros2 run projv1_vision yolov1_node
+
+
 
 ```
 
@@ -184,6 +198,9 @@ cd ~/projv1
 source install/setup.bash
 ros2 run projv1_manipulation target_transform_node
  
+
+
+
 ```
 
 - ### 5.8 Terminal 8- Check target coordinates
@@ -192,6 +209,8 @@ ros2 run projv1_manipulation target_transform_node
 cd ~/projv1
 source install/setup.bash
 ros2 topic echo /target_base
+
+ 
 
 ```
    Only contine if you see:
@@ -202,12 +221,15 @@ ros2 topic echo /target_base
    y: ...
    z: ...
 
-- ### 5.9 Terminal 9- Moveit pick/place node
+- ### 5.9 Terminal 9- Direct pick/place node
     
 ```bash
 cd ~/projv1
 source install/setup.bash
-ros2 run projv1_manipulation moveit_pick_place_node
+ros2 run projv1_manipulation direct_pick_place_node
+
+
+ 
 
 ```
 
@@ -217,102 +239,4 @@ ros2 run projv1_manipulation moveit_pick_place_node
    Accepted target...
    Sending joint goal...
    Goal succeeded
-   
-- ### 5.10 Terminal 10- Gazebo cup marker node
-    
-```bash
-cd ~/projv1
-source install/setup.bash
-ros2 run projv1_manipulation gazebo_cup_marker_node
-
-```
-
-   Expected:
-   
-   Green cup should be spawned in Gazebo
-
-
-## 6. Troubelshoot
-
-- ### 6.1 View the TF frame link
-```bash
-ros2 run tf2_tools view_frames
-```
-
-- ### 6.2 Change of Detected Object
-
-```bash
-cd ~/projv1
-source install/setup.bash
-
-```
-- Download the dataset from roboflow
-- Put the unzipped dataset into the folder dataset
-
-```bash
-sudo apt update
-pip install "numpy>=1.23,<2"
-yolo detect train \
-  data=dataset/data.yaml \
-  model=yolo11n.pt \
-  epochs=50 \
-  imgsz=640
-
-```
-After training
-```bash
-pip install "numpy<2"
-
-```
-Expected example:
-runs/detect/train-3/weights/best.pt
-
-Change train-? and remove the prev best.pt
-```bash
-
-cp runs/detect/train-3/weights/best.pt ~/projv1/models/
-
-```
-How ws should look ( View in the code tab )
-
-projv1/
-├── src/
-│   ├── xarm_ros2/                  # official xArm repo
-│   ├── realsense-ros/              # camera driver
-│
-│   ├── projv1_vision/              # YOUR vision package
-│   │   ├── projv1_vision/
-│   │   │   ├── yolo_node.py
-│   │   │   └── __init__.py
-│   │   ├── package.xml
-│   │   ├── setup.py
-│   │   └── resource/
-│
-│   ├── projv1_manipulation/        # (later: MoveIt + robot control)
-│   │   ├── projv1_manipulation/
-│   │   ├── package.xml
-│   │   └── setup.py
-│
-├── models/                         # ⭐ your trained models
-│   └── best.pt
-│
-├── training/                       # ⭐ training workspace (NOT ROS)
-│   ├── dataset/
-│   │   ├── train/
-│   │   ├── valid/
-│   │   ├── test/
-│   │   └── data.yaml
-│   │
-│   ├── runs/
-│   │   └── detect/
-│   │       └── train-3/
-│   │           └── weights/
-│   │               ├── best.pt
-│   │               └── last.pt
-│   │
-│   └── (optional venv/)
-│
-├── build/                          # auto-generated
-├── install/                        # auto-generated
-└── log/                            # auto-generated
 

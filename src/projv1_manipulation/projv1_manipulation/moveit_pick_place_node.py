@@ -14,6 +14,8 @@ from control_msgs.action import FollowJointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.srv import GetPositionIK
 from moveit_msgs.msg import RobotState
+from xarm_msgs.srv import GripperMove, SetInt16, Call as XArmCall
+from xarm_msgs.srv import GripperMove, SetInt16, Call as XArmCall
 
 import tf2_ros
 
@@ -28,32 +30,59 @@ class MoveItPickPlaceNode(Node):
         self.latest_joint_state = None
         self.saved_target = None
         self.initial_pose_done = False
-
-        self.sim_gripper = True
+        self.gripper_ready = False
+        self.allow_target_lock = False
+        self.target_locked = False
+        self.DETECTION_WAIT_SEC = 10.0
 
         self.joint_names = [
             'joint1', 'joint2', 'joint3', 'joint4',
             'joint5', 'joint6', 'joint7'
         ]
 
+        self.initial_pose = self.deg_list([
+            0, 0, 0, 0, 3.0, -90, 0
+        ])
+
+
+        # Initial detection pose from your xArm GUI
         self.initial_detect_pose = self.deg_list([
-            0.7, 5.0, 4.7, 0.9, 8.0, -57.3, -1.2
+            0, 0, 0, 0, 3.0, -46, 0
         ])
 
         self.after_pick_pose = self.deg_list([
-            -7.6, 49.9, 5.6, 32.3, 0.3, -83.7, -1.2
+            -2.2, 54.8, 0, 48.3, 0.5, -94.1, 0
         ])
 
         self.coffee_machine_pose = self.deg_list([
-            2.1, 56.0, 3.4, 55.5, -75.2, -73.3, -1.2
+            -0.9, 56.0, 3.4, 55.5, -75.2, -75.3, 0
         ])
 
         self.consumer_place_pose = self.deg_list([
-            -1.8, 1.4, 7.7, 2.0, 6.4, -87.6, -1.2
+            -6.8, 58.3, 2.6, 55.2, 40, -80.3, 0
+        ])
+        
+        self.after_place_pose = self.deg_list([
+            -3.3, 51, 0.4, 63, 51.6, -80.3, 0
         ])
 
-        self.GRIPPER_OPEN = 550.0
-        self.GRIPPER_HOLD = 495.0
+        # xArm gripper raw values
+        # 550 = open, 490 = close
+        self.GRIPPER_OPEN = 800.0
+        self.GRIPPER_HOLD = 480.0
+        # Y-axis correction for left/right cup position
+        # Increase Y_SIDE_SCALE if the arm does not move far enough left/right.
+        # Decrease it if the arm moves too far left/right.
+        self.Y_SIDE_SCALE = 1.10
+        # Constant Y offset. Tune this if the gripper is always slightly left/right.
+        self.Y_PICK_OFFSET = 0.0
+        # X correction when cup is away from centre
+        # Used because X is accurate at centre but slightly off at left/right.
+        self.X_PICK_OFFSET = 0.036
+        # Increase this if X error becomes larger when cup is more left/right.
+        # Start small.
+        self.X_SIDE_GAIN = 0.10
+
 
         self.callback_group = ReentrantCallbackGroup()
 
@@ -89,16 +118,46 @@ class MoveItPickPlaceNode(Node):
             callback_group=self.callback_group
         )
 
+        # Gripper services that worked manually
+        self.gripper_position_client = self.create_client(
+            GripperMove,
+            '/xarm/set_gripper_position',
+            callback_group=self.callback_group
+        )
+
+        self.gripper_clean_client = self.create_client(
+            XArmCall,
+            '/xarm/clean_gripper_error',
+            callback_group=self.callback_group
+        )
+
+        self.gripper_enable_client = self.create_client(
+            SetInt16,
+            '/xarm/set_gripper_enable',
+            callback_group=self.callback_group
+        )
+
+        self.gripper_mode_client = self.create_client(
+            SetInt16,
+            '/xarm/set_gripper_mode',
+            callback_group=self.callback_group
+        )
+
         self.create_timer(1.0, self.status_timer)
 
         self.get_logger().info("Waiting for /compute_ik service...")
         self.ik_client.wait_for_service()
 
-        self.get_logger().info("Waiting for Gazebo arm trajectory action server...")
+        self.get_logger().info("Waiting for arm trajectory action server...")
         self.arm_action_client.wait_for_server()
 
-        self.get_logger().info("Gazebo MoveIt pick-place node started")
-        self.get_logger().info("Gripper is simulated/fake in this version")
+        self.get_logger().info("Waiting for gripper services...")
+        self.gripper_position_client.wait_for_service()
+        self.gripper_clean_client.wait_for_service()
+        self.gripper_enable_client.wait_for_service()
+        self.gripper_mode_client.wait_for_service()
+
+        self.get_logger().info("MoveIt coffee sequence node started")
 
     def deg_list(self, values):
         return [math.radians(v) for v in values]
@@ -121,6 +180,7 @@ class MoveItPickPlaceNode(Node):
 
         if (
             self.initial_pose_done
+            and self.target_locked
             and self.saved_target is not None
             and not self.busy
             and not self.done_once
@@ -138,27 +198,38 @@ class MoveItPickPlaceNode(Node):
     def target_callback(self, msg):
         if self.done_once:
             return
+            
+        if self.target_locked:
+            return
+            
+        if not self.allow_target_lock:
+            return
 
         x = msg.point.x
         y = msg.point.y
         z = msg.point.z
 
-        if x < 0.10 or x > 0.80:
+        if x < 0.10 or x > 0.75:
             self.get_logger().warn(f"Rejected X out of range: {x:.3f}")
             return
 
-        if y < -0.40 or y > 0.40:
+        if y < -0.25 or y > 0.25:
             self.get_logger().warn(f"Rejected Y out of range: {y:.3f}")
             return
 
-        if z < -0.05 or z > 0.50:
+        if z < 0.03 or z > 0.40:
             self.get_logger().warn(f"Rejected Z out of range: {z:.3f}")
             return
 
         self.saved_target = (x, y, z)
+        self.target_locked = True
 
         self.get_logger().info(
-            f"Target received: X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+            f"Target LOCKED: X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+        )
+        
+        self.get_logger().info(
+            "Future target updates will be ignored for accuracy."
         )
 
     def wait_future(self, future, timeout_sec):
@@ -175,19 +246,86 @@ class MoveItPickPlaceNode(Node):
 
         return False
 
+    def call_empty_service(self, client, name, timeout=5.0):
+        req = XArmCall.Request()
+        future = client.call_async(req)
+
+        if not self.wait_future(future, timeout):
+            self.get_logger().warn(f"{name} service timeout")
+            return False
+
+        result = future.result()
+
+        if result.ret != 0:
+            self.get_logger().warn(
+                f"{name} failed: ret={result.ret}, message={result.message}"
+            )
+            return False
+
+        self.get_logger().info(f"{name} OK: {result.message}")
+        return True
+
+    def call_set_int16_service(self, client, value, name, timeout=5.0):
+        req = SetInt16.Request()
+        req.data = int(value)
+
+        future = client.call_async(req)
+
+        if not self.wait_future(future, timeout):
+            self.get_logger().warn(f"{name} service timeout")
+            return False
+
+        result = future.result()
+
+        if result.ret != 0:
+            self.get_logger().warn(
+                f"{name} failed: ret={result.ret}, message={result.message}"
+            )
+            return False
+
+        self.get_logger().info(f"{name} OK: {result.message}")
+        return True
+
+    def setup_gripper(self):
+        self.get_logger().info("Setting up gripper...")
+
+        if not self.call_empty_service(
+            self.gripper_clean_client,
+            "clean_gripper_error"
+        ):
+            return False
+
+        if not self.call_set_int16_service(
+            self.gripper_enable_client,
+            1,
+            "set_gripper_enable"
+        ):
+            return False
+
+        if not self.call_set_int16_service(
+            self.gripper_mode_client,
+            0,
+            "set_gripper_mode"
+        ):
+            return False
+
+        self.gripper_ready = True
+        self.get_logger().info("Gripper setup complete")
+        return True
+
     def get_current_eef_orientation(self):
         for i in range(20):
             try:
                 transform = self.tf_buffer.lookup_transform(
                     'link_base',
-                    'link_eef',
+                    'link_tcp',
                     rclpy.time.Time()
                 )
                 return transform.transform.rotation
 
             except Exception as e:
                 self.get_logger().warn(
-                    f"Waiting for link_base -> link_eef TF... {i + 1}/20: {e}"
+                    f"Waiting for link_base -> link_tcp TF... {i + 1}/20: {e}"
                 )
                 time.sleep(0.2)
 
@@ -214,7 +352,7 @@ class MoveItPickPlaceNode(Node):
 
         req = GetPositionIK.Request()
         req.ik_request.group_name = 'xarm7'
-        req.ik_request.ik_link_name = 'link_eef'
+        req.ik_request.ik_link_name = 'link_tcp'
         req.ik_request.pose_stamped = pose
         req.ik_request.timeout.sec = 5
         req.ik_request.avoid_collisions = False
@@ -266,8 +404,6 @@ class MoveItPickPlaceNode(Node):
                     )
                     return None
 
-            positions[6] = current_positions[6]
-
         except KeyError as e:
             self.get_logger().warn(f"IK solution missing joint: {e}")
             return None
@@ -275,16 +411,20 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().info(f"IK solution accepted: {positions}")
         return positions
 
-    def send_arm_goal(self, positions, duration=8):
+    def send_arm_goal(self, positions, duration=10):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
         point.positions = positions
-        point.time_from_start.sec = duration
+        point.velocities = [0.0] * len(self.joint_names)
+        point.time_from_start.sec = int(duration)
+        point.time_from_start.nanosec = 0
 
         goal_msg.trajectory.points.append(point)
-        goal_msg.goal_time_tolerance.sec = 3
+
+        goal_msg.goal_time_tolerance.sec = 10
+        goal_msg.goal_time_tolerance.nanosec = 0
 
         self.get_logger().info(f"Sending arm goal: {positions}")
 
@@ -304,7 +444,7 @@ class MoveItPickPlaceNode(Node):
 
         result_future = goal_handle.get_result_async()
 
-        if not self.wait_future(result_future, duration + 6):
+        if not self.wait_future(result_future, duration + 20):
             self.get_logger().warn("Arm result timeout, continuing")
             time.sleep(1.0)
             return True
@@ -319,23 +459,125 @@ class MoveItPickPlaceNode(Node):
         self.get_logger().warn(f"Arm goal failed: {result.error_string}")
         return False
 
+    def call_gripper_empty_service(self, client, name, timeout=5.0):
+        req = XArmCall.Request()
+        future = client.call_async(req)
+
+        if not self.wait_future(future, timeout):
+            self.get_logger().warn(f"{name} service timeout")
+            return False
+
+        result = future.result()
+
+        if result.ret != 0:
+            self.get_logger().warn(
+                f"{name} failed: ret={result.ret}, message={result.message}"
+            )
+            return False
+
+        self.get_logger().info(f"{name} OK")
+        return True
+
+    def call_gripper_int_service(self, client, value, name, timeout=5.0):
+        req = SetInt16.Request()
+        req.data = int(value)
+
+        future = client.call_async(req)
+
+        if not self.wait_future(future, timeout):
+            self.get_logger().warn(f"{name} service timeout")
+            return False
+
+        result = future.result()
+
+        if result.ret != 0:
+            self.get_logger().warn(
+                f"{name} failed: ret={result.ret}, message={result.message}"
+            )
+            return False
+
+        self.get_logger().info(f"{name} OK")
+        return True
+
+    def setup_gripper(self):
+        if self.gripper_ready:
+            return True
+
+        self.get_logger().info("Setting up gripper...")
+
+        if not self.call_gripper_empty_service(
+            self.gripper_clean_client,
+            "clean_gripper_error"
+        ):
+            return False
+
+        if not self.call_gripper_int_service(
+            self.gripper_enable_client,
+            1,
+            "set_gripper_enable"
+        ):
+            return False
+
+        if not self.call_gripper_int_service(
+            self.gripper_mode_client,
+            0,
+            "set_gripper_mode"
+        ):
+            return False
+
+        self.gripper_ready = True
+        self.get_logger().info("Gripper setup complete")
+        return True
+
     def send_gripper_goal(self, position):
-        self.get_logger().info(
-            f"[GAZEBO SIM] Pretending gripper moved to {position}"
-        )
+        if not self.setup_gripper():
+            self.get_logger().warn("Gripper setup failed")
+            return False
+
+        req = GripperMove.Request()
+        req.pos = float(position)
+        req.wait = True
+        req.timeout = 10.0
+
+        self.get_logger().info(f"Sending gripper position: {position}")
+
+        future = self.gripper_position_client.call_async(req)
+
+        if not self.wait_future(future, 12.0):
+            self.get_logger().warn("Gripper service timeout")
+            return False
+
+        result = future.result()
+
+        if result.ret != 0:
+            self.get_logger().warn(
+                f"Gripper move failed: ret={result.ret}, message={result.message}"
+            )
+            return False
+
+        self.get_logger().info("Gripper motion complete")
         time.sleep(1.0)
         return True
 
     def open_gripper(self):
-        self.get_logger().info("Opening simulated gripper")
+        self.get_logger().info("Opening gripper to 550")
         return self.send_gripper_goal(self.GRIPPER_OPEN)
 
     def close_gripper(self):
-        self.get_logger().info("Closing simulated gripper")
+        self.get_logger().info("Closing gripper to 490")
         return self.send_gripper_goal(self.GRIPPER_HOLD)
 
-    def move_to_pose(self, x, y, z, duration=8):
+    def move_to_pose(self, x, y, z, duration=10):
         joints = self.compute_ik(x, y, z)
+
+        if joints is None:
+            return False
+
+        self.get_logger().info(
+            f"Moving to pose X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+        )
+
+        return self.send_arm_goal(joints, duration=duration)
 
         if joints is None:
             return False
@@ -349,9 +591,18 @@ class MoveItPickPlaceNode(Node):
     def move_to_initial_detection_pose(self):
         self.get_logger().info("Moving to initial detection pose...")
 
-        if self.send_arm_goal(self.initial_detect_pose, duration=8):
+        if self.send_arm_goal(self.initial_detect_pose, duration=10):
             self.get_logger().info("Initial detection pose reached")
             self.initial_pose_done = True
+         
+            self.get_logger().info(
+                f"Waiting {self.DETECTION_WAIT_SEC:.1f} seconds at detection pose..."
+            )    
+            time.sleep(self.DETECTION_WAIT_SEC)
+
+            self.allow_target_lock = True
+            self.get_logger().info("Now accepting one valid target value.")   
+            
         else:
             self.get_logger().warn("Failed to move to initial detection pose")
 
@@ -359,27 +610,48 @@ class MoveItPickPlaceNode(Node):
 
     def pick_coffee_sequence(self, x, y, z):
         self.get_logger().info(
-            f"Starting Gazebo sequence at cup X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+            f"Starting sequence at cup X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
         )
 
-        above_z = z + 0.10
-        pick_z = z + 0.02
+        # Current tuning values
+        approach_x = x - 0.05
+        approach_z = z - 0.025
+        pick_x = x + self.X_PICK_OFFSET + (abs(y) * self.X_SIDE_GAIN)
+        pick_z = z - 0.015
+        pick_y = (y * self.Y_SIDE_SCALE) + self.Y_PICK_OFFSET
+
+        self.get_logger().info(
+            f"Using approach X={approach_x:.3f}, Y={pick_y:.3f}, Z={approach_z:.3f}"
+        )
+
+        self.get_logger().info(
+            f"Using X={pick_x:.3f}, Y={pick_y:.3f}, Z={pick_z:.3f}"
+        )
 
         if not self.open_gripper():
             self.busy = False
             return
 
-        if not self.move_to_pose(x, y, above_z, duration=8):
+        # 1. Move near the cup with X offset
+        if not self.move_to_pose(approach_x, y, approach_z, duration=10):
+            self.get_logger().warn("Failed to move to approach pose, gripper will not close")
+            self.busy = False
+            return
+            
+        # 2. Move to final pick position
+        if not self.move_to_pose(pick_x, pick_y, pick_z, duration=10):
+            self.get_logger().warn("Failed to move to pick pose, gripper will not close")
             self.busy = False
             return
 
-        if not self.move_to_pose(x, y, pick_z, duration=8):
-            self.busy = False
-            return
-
+        # 3. Close gripper
+        self.get_logger().info("Reached pick pose, now closing gripper")
         if not self.close_gripper():
+            self.get_logger().warn("Failed to close gripper")
             self.busy = False
             return
+
+        time.sleep(1.0)
 
         if not self.send_arm_goal(self.after_pick_pose, duration=10):
             self.busy = False
@@ -393,18 +665,47 @@ class MoveItPickPlaceNode(Node):
             self.busy = False
             return
 
-        self.get_logger().info("Simulated cup placed at coffee machine")
-        time.sleep(3.0)
+        self.get_logger().info("Cup at coffee machine. Waiting 10 seconds...")
+        time.sleep(10.0)
+
+        if not self.close_gripper():
+            self.busy = False
+            return
+
+        if not self.send_arm_goal(self.after_pick_pose, duration=10):
+            self.busy = False
+            return
 
         if not self.send_arm_goal(self.consumer_place_pose, duration=10):
             self.busy = False
             return
+            
+        if not self.open_gripper():
+            self.busy = False
+            return
+        
+        if not self.send_arm_goal(self.after_place_pose, duration=10):
+            self.busy = False
+            return  
+        
+        if not self.send_arm_goal(self.initial_pose, duration=10):
+            self.busy = False
+            return    
+   
+        # Go directly back to the original received coordinate
+        #if not self.move_to_pose(x, y, z, duration=10):
+         #   self.busy = False
+           # return
 
-        if not self.send_arm_goal(self.initial_detect_pose, duration=10):
+        if not self.open_gripper():
             self.busy = False
             return
 
-        self.get_logger().info("Gazebo simulated coffee sequence complete")
+        time.sleep(1.0)
+
+        #self.send_arm_goal(self.initial_detect_pose, duration=15)
+
+        self.get_logger().info("Full coffee cup sequence complete")
         self.busy = False
 
 
@@ -418,9 +719,14 @@ def main(args=None):
 
     try:
         executor.spin()
+    except KeyboardInterrupt:
+        pass
     finally:
+        executor.shutdown()
         node.destroy_node()
-        rclpy.shutdown()
+
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
