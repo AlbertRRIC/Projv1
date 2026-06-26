@@ -102,15 +102,16 @@ source install/setup.bash
 __Reminder 3： All following instructions will base on xArm7__
 
 
-- ### 5.1 Terminal 1- Gazebo For Simulation
+- ### 5.1 Terminal 1- Start xArm with gripper + Camera TF
     
 ```bash
+cd ~/projv1
 source /opt/ros/humble/setup.bash
-source ~/projv1/install/setup.bash
-ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py
+source install/setup.bash
+
+ros2 launch xarm_moveit_config _robot_moveit_realmove.launch.py
 
 ```
-https://github.com/xarm-Developer/xarm_ros2
 
 - ### 5.2 Terminal 2- Controllers
     
@@ -143,18 +144,20 @@ xarm7_traj_controller active
 cd ~/projv1
 source install/setup.bash
 
-ros2 launch realsense2_camera rs_launch.py \
-align_depth.enable:=true \
-enable_color:=true \
-enable_depth:=true
+ros2 launch realsense2_camera rs_launch.py 
 
 ```
 
-- ### 5.4 Terminal 4- BLANK ( DLT )
+- ### 5.4 Terminal 4- Gazebo For Simulation
     
 ```bash
+source /opt/ros/humble/setup.bash
+source ~/projv1/install/setup.bash
+ros2 launch xarm_moveit_config xarm7_moveit_gazebo.launch.py
 
 ```
+https://github.com/xarm-Developer/xarm_ros2
+
 
 - ### 5.5 Terminal 5- Selection of classes to detect
     
