@@ -253,7 +253,7 @@ ros2 run tf2_tools view_frames
 - ### 6.2 Change of Detected Object
 
 ```bash
-cd ~/projv1
+cd ~/projv1/training
 source install/setup.bash
 
 ```
