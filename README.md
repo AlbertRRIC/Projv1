@@ -15,7 +15,9 @@
 - (2026-05-14) Processing Gazebo + pickplacenode
 - (2026-05-15) Added Selection Node
 - (2026-05-16) Linked eef with both Camera + Gripper
-- (2026-06-23) Added Hand-eye Calibration
+- (2026-06-23) Added Hand-eye Calibrationd
+- (2026-07-02) Condensed Selection + YOLO + Target Transform Nodes into 1 (visionv1_node.py)
+- (2026-07-02) Made a Service call between visionv1_node & Manupalation_node
 
 ## 3. Preparation
 
@@ -88,7 +90,7 @@
     ```
 
 
-## 5. Package Introduction
+## 5. Simulations
 
 __Reminder 1: If there are multiple people using ros2 in the current LAN, in order to avoid mutual interference, please set ROS_DOMAIN_ID__  
   - [Humble](https://docs.ros.org/en/ros2_documentation/humble/Concepts/About-Domain-ID.html)
@@ -242,15 +244,95 @@ ros2 run projv1_manipulation gazebo_cup_marker_node
    
    Green cup should be spawned in Gazebo
 
+## 6. Package Introduction
 
-## 6. Troubelshoot
+- ### 6.1 Terminal 1- Start xArm with gripper + Camera TF
+    
+```bash
+cd ~/projv1
+source /opt/ros/humble/setup.bash
+source install/setup.bash
 
-- ### 6.1 View the TF frame link
+ros2 launch xarm_moveit_config _robot_moveit_realmove.launch.py
+
+```
+
+- ### 6.2 Terminal 2- Controllers
+    
+```bash
+cd ~/projv1
+source install/setup.bash
+ros2 control list_controllers
+
+```
+   If not Active:
+```bash
+ros2 control load_controller --set-state active joint_state_broadcaster
+ros2 control load_controller --set-state active xarm7_traj_controller
+
+```
+   Check:
+```bash
+ros2 control list_controllers
+
+```
+   Make sure Output:
+```bash
+joint_state_broadcaster active
+xarm7_traj_controller active
+
+```
+
+- ### 6.3 Terminal 3- RealSense Camera
+    
+```bash
+cd ~/projv1
+source install/setup.bash
+
+ros2 launch realsense2_camera rs_launch.py 
+
+```
+
+- ### 6.4 Terminal 4- Turn on visionv1_node
+
+```bash
+cd ~/projv1
+source install/setup.bash
+
+ros2 run projv1_vision visionv1_node
+
+```
+
+- ### 6.5 Terminal 5- Turn on visionv1_viewer ( to view the detected obj ) 
+
+```bash
+cd ~/projv1
+source install/setup.bash
+
+ros2 run projv1_vision visionv1_viewer
+
+```
+
+- ### 6.6 Terminal 6- Service
+
+```bash
+cd ~/projv1
+source install/setup.bash
+
+ros2 service call /visionv1/detect projv1_interfaces/srv/VisionDetect "{selected_class: 'Pot', target_frame: 'camera_color_frame', warmup_frames: 5}"
+requester: making request: projv1_interfaces.srv.VisionDetect_Request(selected_class='Pot', target_frame='camera_color_frame', warmup_frames=5)
+
+```
+var: selected_class, target_frame, warmup_frames
+
+## 7. Troubelshoot
+
+- ### 7.1 View the TF frame link
 ```bash
 ros2 run tf2_tools view_frames
 ```
 
-- ### 6.2 Change of Detected Object
+- ### 7.2 Change of Detected Object
 
 ```bash
 cd ~/projv1/training
