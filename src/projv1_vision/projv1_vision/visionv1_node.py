@@ -235,7 +235,7 @@ class VisionV1Node(Node):
     def censor_people(self, image):
         results = self.person_model(
             image,
-            conf=0.4,
+            conf=0.9,
             classes=[0],
             verbose=False
         )
@@ -359,31 +359,84 @@ class VisionV1Node(Node):
         if self.fx is None or self.fy is None or self.cx is None or self.cy is None:
             missing.append("camera_info")
 
-        if self.selected_class is None:
-            missing.append("selected_class")
-
         if missing:
-            self.get_logger().warn(
-                f"Waiting for: {missing}",
-                throttle_duration_sec=2.0
-            )
             return
-
-        self.consume_warmup_frame()
 
         frame = self.bridge.imgmsg_to_cv2(
             msg,
             "bgr8"
         )
 
+        annotated = frame.copy()
+
+        # Check whether a service request is currently active.
+        # If no service request is active, do NOT run YOLO.
+        with self.request_lock:
+            request_active = self.request_active
+            request_class = self.request_class
+            warmup_remaining = self.request_warmup_remaining
+
+        if not request_active:
+            cv2.putText(
+                annotated,
+                "Vision idle - waiting for service request",
+                (20, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (0, 255, 255),
+                2
+            )
+
+            annotated_msg = self.bridge.cv2_to_imgmsg(
+                annotated,
+                encoding="bgr8"
+            )
+            annotated_msg.header = msg.header
+
+            try:
+                self.annotated_image_pub.publish(annotated_msg)
+            except Exception:
+                return
+
+            return
+
+        # Service request is active, so count warmup frames first.
+        self.consume_warmup_frame()
+
+        with self.request_lock:
+            warmup_remaining = self.request_warmup_remaining
+            request_class = self.request_class
+
+        if warmup_remaining > 0:
+            cv2.putText(
+                annotated,
+                f"Service request active | Warmup remaining: {warmup_remaining}",
+                (20, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (0, 255, 255),
+                2
+            )
+
+            annotated_msg = self.bridge.cv2_to_imgmsg(
+                annotated,
+                encoding="bgr8"
+            )
+            annotated_msg.header = msg.header
+
+            try:
+                self.annotated_image_pub.publish(annotated_msg)
+            except Exception:
+                return
+
+            return
+
+        # Only after service request + warmup, run YOLO.
         results = self.model(
             frame,
-            conf=0.8,
+            conf=0.4,
             verbose=False
         )
-
-        annotated = frame.copy()
-        annotated = self.censor_people(annotated)
 
         found_target = False
         detected_target = None
@@ -393,7 +446,7 @@ class VisionV1Node(Node):
             detected_class_name = self.model.names[detected_class_id]
             confidence = float(box.conf[0].item())
 
-            if detected_class_name != self.selected_class:
+            if detected_class_name != request_class:
                 continue
 
             found_target = True
@@ -422,10 +475,6 @@ class VisionV1Node(Node):
                 u < 5 or
                 u >= self.depth_image.shape[1] - 5
             ):
-                self.get_logger().warn(
-                    "Target centre is too close to image boundary",
-                    throttle_duration_sec=2.0
-                )
                 continue
 
             depth_crop = self.depth_image[
@@ -438,17 +487,12 @@ class VisionV1Node(Node):
             ]
 
             if valid_depths.size == 0:
-                self.get_logger().warn("No valid depth", throttle_duration_sec=2.0)
                 continue
 
             depth_raw = np.median(valid_depths)
             depth_m = self.depth_to_meters(depth_raw)
 
             if depth_m <= 0.0 or depth_m > 5.0:
-                self.get_logger().warn(
-                    f"Rejected unrealistic depth: {depth_m:.3f} m",
-                    throttle_duration_sec=2.0
-                )
                 continue
 
             # Optical camera coordinates from RealSense projection
@@ -481,7 +525,7 @@ class VisionV1Node(Node):
             )
 
             text_lines = [
-                f"{self.selected_class}",
+                f"{request_class}",
                 f"Conf: {confidence * 100:.1f}%",
                 f"ROS Cam X: {ros_x:.3f} m",
                 f"ROS Cam Y: {ros_y:.3f} m",
@@ -498,19 +542,13 @@ class VisionV1Node(Node):
                 text_y
             )
 
-            self.get_logger().info(
-                f"Preview {self.selected_class} ROS Camera XYZ: "
-                f"X={ros_x:.3f}, Y={ros_y:.3f}, Z={ros_z:.3f}",
-                throttle_duration_sec=2.0
-            )
-
-            # Use the first matching target for preview and one-shot detection
+            # Use the first valid matching target only
             break
 
         if not found_target:
             cv2.putText(
                 annotated,
-                f"Selected: {self.selected_class} | No target",
+                f"Service request active | No {request_class} found",
                 (20, 30),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.7,
@@ -518,8 +556,8 @@ class VisionV1Node(Node):
                 2
             )
 
-        # Official robot result only happens after service request and warmup frames
-        if detected_target is not None and self.service_request_ready():
+        # Official robot result only happens during service request.
+        if detected_target is not None:
             self.finish_service_request_if_ready(detected_target)
 
         annotated_msg = self.bridge.cv2_to_imgmsg(
@@ -527,6 +565,7 @@ class VisionV1Node(Node):
             encoding="bgr8"
         )
         annotated_msg.header = msg.header
+
         try:
             self.annotated_image_pub.publish(annotated_msg)
         except Exception:
