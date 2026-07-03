@@ -12,10 +12,10 @@
 
 ## 2. Update History    
 - (2026-05-14) Completed YOLO Detection + Intel Realsense D435i Camera Integration
-- (2026-05-14) Processing Gazebo + pickplacenode
+- (2026-05-14) Processing Gazebo + Manipulation Node
 - (2026-05-15) Added Selection Node
 - (2026-05-16) Linked eef with both Camera + Gripper
-- (2026-06-23) Added Hand-eye Calibrationd
+- (2026-06-23) Added Hand-eye Calibration
 - (2026-07-02) Condensed Selection + YOLO + Target Transform Nodes into 1 (visionv1_node.py)
 - (2026-07-02) Made a Service call between visionv1_node & Manupalation_node
 
