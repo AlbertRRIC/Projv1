@@ -1,8 +1,8 @@
 
-cups - v5 2026-05-06 1:59pm
+Plants - v5 Plants v5
 ==============================
 
-This dataset was exported via roboflow.com on May 6, 2026 at 7:07 AM GMT
+This dataset was exported via roboflow.com on July 2, 2026 at 8:12 AM GMT
 
 Roboflow is an end-to-end computer vision platform that helps you
 * collaborate with your team on computer vision projects
@@ -17,8 +17,8 @@ visit https://github.com/roboflow/notebooks
 
 To find over 100k other datasets and pre-trained models, visit https://universe.roboflow.com
 
-The dataset includes 60 images.
-Cups are annotated in YOLOv11 format.
+The dataset includes 84 images.
+Plants are annotated in YOLOv11 format.
 
 The following pre-processing was applied to each image:
 * Auto-orientation of pixel data (with EXIF-orientation stripping)

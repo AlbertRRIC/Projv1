@@ -2,12 +2,12 @@ train: ../train/images
 val: ../valid/images
 test: ../test/images
 
-nc: 2
-names: ['Browncup', 'Whitecup']
+nc: 1
+names: ['Pot']
 
 roboflow:
   workspace: schools-workspace-nlbka
-  project: cups-fkwgy
+  project: plants-fc7jg
   version: 5
   license: CC BY 4.0
-  url: https://universe.roboflow.com/schools-workspace-nlbka/cups-fkwgy/dataset/5
+  url: https://universe.roboflow.com/schools-workspace-nlbka/plants-fc7jg/dataset/5

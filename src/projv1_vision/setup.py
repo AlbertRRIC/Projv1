@@ -27,6 +27,8 @@ setup(
 		'yolov2_node = projv1_vision.yolov2_node:main',
 		'target_transform_node = projv1_vision.target_transform_node:main',
 		'select_class_node = projv1_vision.select_class_node:main',
+                'visionv1_node = projv1_vision.visionv1_node:main',
+                'visionv1_viewer = projv1_vision.visionv1_viewer:main',
         ],
     },
 )

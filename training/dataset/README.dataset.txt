@@ -1,5 +1,5 @@
-# cups > 2026-05-06 1:59pm
-https://universe.roboflow.com/schools-workspace-nlbka/cups-fkwgy
+# Plants > Plants v5
+https://universe.roboflow.com/schools-workspace-nlbka/plants-fc7jg
 
 Provided by a Roboflow user
 License: CC BY 4.0

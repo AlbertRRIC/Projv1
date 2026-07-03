@@ -18,4 +18,5 @@
   <export>
     <build_type>ament_python</build_type>
   </export>
+  <depend>projv1_interfaces</depend>
 </package>

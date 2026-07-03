@@ -15,7 +15,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.srv import GetPositionIK
 from moveit_msgs.msg import RobotState
 from xarm_msgs.srv import GripperMove, SetInt16, Call as XArmCall
-from xarm_msgs.srv import GripperMove, SetInt16, Call as XArmCall
+from projv1_interfaces.srv import VisionDetect
 
 import tf2_ros
 
@@ -33,7 +33,12 @@ class MoveItPickPlaceNode(Node):
         self.gripper_ready = False
         self.allow_target_lock = False
         self.target_locked = False
-        self.DETECTION_WAIT_SEC = 10.0
+
+        # VisionV1 one-shot service settings
+        self.vision_requested = False
+        self.VISION_SELECTED_CLASS = "Browncup"
+        self.VISION_TARGET_FRAME = "link_base"
+        self.VISION_WARMUP_FRAMES = 10
 
         self.joint_names = [
             'joint1', 'joint2', 'joint3', 'joint4',
@@ -63,7 +68,7 @@ class MoveItPickPlaceNode(Node):
         ])
         
         self.after_place_pose = self.deg_list([
-            -3.3, 51, 0.4, 63, 51.6, -80.3, 0
+            -6.8, 58.3, 2.6, 55.2, 40, -90.3, 0
         ])
 
         # xArm gripper raw values
@@ -78,10 +83,10 @@ class MoveItPickPlaceNode(Node):
         self.Y_PICK_OFFSET = 0.0
         # X correction when cup is away from centre
         # Used because X is accurate at centre but slightly off at left/right.
-        self.X_PICK_OFFSET = 0.036
+        self.X_PICK_OFFSET = 0.035
         # Increase this if X error becomes larger when cup is more left/right.
         # Start small.
-        self.X_SIDE_GAIN = 0.10
+        self.X_SIDE_GAIN = 0.05
 
 
         self.callback_group = ReentrantCallbackGroup()
@@ -143,6 +148,12 @@ class MoveItPickPlaceNode(Node):
             callback_group=self.callback_group
         )
 
+        self.vision_client = self.create_client(
+            VisionDetect,
+            '/visionv1/detect',
+            callback_group=self.callback_group
+        )
+
         self.create_timer(1.0, self.status_timer)
 
         self.get_logger().info("Waiting for /compute_ik service...")
@@ -156,6 +167,9 @@ class MoveItPickPlaceNode(Node):
         self.gripper_clean_client.wait_for_service()
         self.gripper_enable_client.wait_for_service()
         self.gripper_mode_client.wait_for_service()
+
+        self.get_logger().info("Waiting for /visionv1/detect service...")
+        self.vision_client.wait_for_service()
 
         self.get_logger().info("MoveIt coffee sequence node started")
 
@@ -180,18 +194,15 @@ class MoveItPickPlaceNode(Node):
 
         if (
             self.initial_pose_done
-            and self.target_locked
-            and self.saved_target is not None
             and not self.busy
             and not self.done_once
+            and not self.vision_requested
         ):
-            x, y, z = self.saved_target
             self.busy = True
-            self.done_once = True
+            self.vision_requested = True
 
             threading.Thread(
-                target=self.pick_coffee_sequence,
-                args=(x, y, z),
+                target=self.request_vision_and_pick,
                 daemon=True
             ).start()
 
@@ -594,19 +605,82 @@ class MoveItPickPlaceNode(Node):
         if self.send_arm_goal(self.initial_detect_pose, duration=10):
             self.get_logger().info("Initial detection pose reached")
             self.initial_pose_done = True
-         
-            self.get_logger().info(
-                f"Waiting {self.DETECTION_WAIT_SEC:.1f} seconds at detection pose..."
-            )    
-            time.sleep(self.DETECTION_WAIT_SEC)
 
-            self.allow_target_lock = True
-            self.get_logger().info("Now accepting one valid target value.")   
+            self.get_logger().info("Detection pose stabilised. Requesting vision service next.")
             
         else:
             self.get_logger().warn("Failed to move to initial detection pose")
 
         self.busy = False
+
+    def request_vision_and_pick(self):
+        self.get_logger().info("Requesting one-shot vision detection...")
+
+        req = VisionDetect.Request()
+        req.selected_class = self.VISION_SELECTED_CLASS
+        req.target_frame = self.VISION_TARGET_FRAME
+        req.warmup_frames = int(self.VISION_WARMUP_FRAMES)
+
+        future = self.vision_client.call_async(req)
+
+        if not self.wait_future(future, 60.0):
+            self.get_logger().warn("Vision service timeout")
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        result = future.result()
+
+        if not result.success:
+            self.get_logger().warn(f"Vision detection failed: {result.message}")
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        if result.target.header.frame_id != "link_base":
+            self.get_logger().warn(
+                f"Vision result is in {result.target.header.frame_id}, expected link_base"
+            )
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        x = result.target.point.x
+        y = result.target.point.y
+        z = result.target.point.z
+
+        if x < 0.10 or x > 0.75:
+            self.get_logger().warn(f"Rejected X out of range: {x:.3f}")
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        if y < -0.25 or y > 0.25:
+            self.get_logger().warn(f"Rejected Y out of range: {y:.3f}")
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        if z < 0.03 or z > 0.40:
+            self.get_logger().warn(f"Rejected Z out of range: {z:.3f}")
+            self.busy = False
+            self.done_once = False
+            self.vision_requested = False
+            return
+
+        self.saved_target = (x, y, z)
+        self.done_once = True
+
+        self.get_logger().info(
+            f"One-shot vision target received in link_base: X={x:.3f}, Y={y:.3f}, Z={z:.3f}"
+        )
+
+        self.pick_coffee_sequence(x, y, z)
 
     def pick_coffee_sequence(self, x, y, z):
         self.get_logger().info(
