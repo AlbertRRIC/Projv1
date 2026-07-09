@@ -81,13 +81,13 @@
 
   These are needed for the real xArm + MoveIt launch:
 
-    xarm_msgs
-    xarm_description
-    xarm_sdk
-    uf_ros_lib
-    xarm_api
-    xarm_controller
-    xarm_moveit_config
+    xarm_msgs, 
+    xarm_description, 
+    xarm_sdk, 
+    uf_ros_lib, 
+    xarm_api, 
+    xarm_controller, 
+    xarm_moveit_config, 
   
 - #### 4.5.2 RealSense required packages
 
@@ -143,26 +143,26 @@ ros2 launch realsense2_camera rs_launch.py enable_color:=true enable_depth:=true
     source install/setup.bash
   ```
 - #### 4.5.5 Final run commands
-
-Terminal 1:
-
- ```bash
-cd ~/projv1
-source /opt/ros/humble/setup.bash
-source install/setup.bash
-
-ros2 launch projv1_bringup plant_pot_full_system.launch.py
- ```
-
-Terminal 2:
-
- ```bash
-cd ~/projv1
-source /opt/ros/humble/setup.bash
-source install/setup.bash
-
-ros2 service call /activate_plant_pot_above projv1_interfaces/srv/ActivatePlantPotAbove "{selected_class: 'Pot', target_frame: 'link_base', warmup_frames: 5}"
- ```
+  
+  Terminal 1:
+  
+   ```bash
+  cd ~/projv1
+  source /opt/ros/humble/setup.bash
+  source install/setup.bash
+  
+  ros2 launch projv1_bringup plant_pot_full_system.launch.py
+   ```
+  
+  Terminal 2:
+  
+   ```bash
+  cd ~/projv1
+  source /opt/ros/humble/setup.bash
+  source install/setup.bash
+  
+  ros2 service call /activate_plant_pot_above projv1_interfaces/srv/ActivatePlantPotAbove "{selected_class: 'Pot', target_frame: 'link_base', warmup_frames: 5}"
+   ```
 
 
 - ### 4.6 Build Projv1
