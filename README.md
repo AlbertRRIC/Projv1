@@ -487,6 +487,19 @@ ros2 topic echo /target_base
    z: ...
 
 - ### 5.9 Terminal 9- Moveit pick/place node
+  
+  ```bash
+cd ~/projv1
+source install/setup.bash
+ros2 run projv1_manipulation gazebo_cup_marker_node
+
+```
+
+   Expected:
+   
+   Green cup should be spawned in Gazebo
+   
+- ### 5.10 Terminal 10- Gazebo cup marker node
     
 ```bash
 cd ~/projv1
@@ -501,19 +514,6 @@ ros2 run projv1_manipulation moveit_pick_place_node
    Accepted target...
    Sending joint goal...
    Goal succeeded
-   
-- ### 5.10 Terminal 10- Gazebo cup marker node
-    
-```bash
-cd ~/projv1
-source install/setup.bash
-ros2 run projv1_manipulation gazebo_cup_marker_node
-
-```
-
-   Expected:
-   
-   Green cup should be spawned in Gazebo
 
 ## 6. Package Introduction
 
@@ -574,7 +574,7 @@ ros2 run projv1_vision visionv1_node
 
 ```
 
-- ### 6.5 Terminal 5- Turn on visionv1_viewer ( to view the detected obj ) 
+- ### 6.5 Terminal 5- Turn on visionv1_viewer ( for troubleshoot ) 
 
 ```bash
 cd ~/projv1
