@@ -22,24 +22,24 @@
   ros-humble-librealsense2
 
   Install with:
-```bash
+  ```bash
   sudo apt install -y \
   ros-humble-librealsense2 \
   ros-humble-realsense2-camera \
   ros-humble-realsense2-description \
   ros-humble-diagnostic-updater \
   ros-humble-diagnostic-msgs
-```
+  ```
 
    Test:
-```bash
+   ```bash
    ros2 launch realsense2_camera rs_launch.py enable_color:=true enable_depth:=true
-```
+   ```
 
 - ## 4.5.3 Python dependencies
 
   Needed for YOLO, camera processing, transforms, and manipulation logic:
-  ```bash
+     ```bash
      pip install \
      "numpy>=1.23,<2" \
      opencv-python \
@@ -49,7 +49,7 @@
      scipy \
      transforms3d \
      pyrealsense2
-  ```
+     ```
 - ## 4.5.4 Final build command
 
   Use this:
