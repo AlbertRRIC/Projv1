@@ -31,24 +31,24 @@
   ros-humble-diagnostic-msgs
 ```
 
-Test:
+   Test:
 ```bash
-ros2 launch realsense2_camera rs_launch.py enable_color:=true enable_depth:=true
+   ros2 launch realsense2_camera rs_launch.py enable_color:=true enable_depth:=true
 ```
 
 - ## 4.5.3 Python dependencies
 
   Needed for YOLO, camera processing, transforms, and manipulation logic:
   ```bash
-    pip install \
-    "numpy>=1.23,<2" \
-    opencv-python \
-    ultralytics \
-    torch \
-    torchvision \
-    scipy \
-    transforms3d \
-    pyrealsense2
+     pip install \
+     "numpy>=1.23,<2" \
+     opencv-python \
+     ultralytics \
+     torch \
+     torchvision \
+     scipy \
+     transforms3d \
+     pyrealsense2
   ```
 - ## 4.5.4 Final build command
 
