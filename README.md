@@ -74,279 +74,98 @@
     rosdep update
     rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
     ```
-# projv1 Robotic Arm Manipulation Setup
+    
+- ### 4.5 projv1 Robotic Arm Manipulation Setup
 
-This README is for setting up the project on a new device for:
+- #### 4.5.1 xArm required packages
 
-* xArm7 robotic arm manipulation
-* MoveIt 2
-* Intel RealSense camera
-* YOLO object detection
-* ROS 2 service-based vision and manipulation pipeline
+  These are needed for the real xArm + MoveIt launch:
 
-This setup excludes Flutter, KONE API, Nav2, RTAB-Map, and mobile base dependencies.
+    xarm_msgs
+    xarm_description
+    xarm_sdk
+    uf_ros_lib
+    xarm_api
+    xarm_controller
+    xarm_moveit_config
+  
+- #### 4.5.2 RealSense required packages
 
----
+  Needed for the D435i camera:
 
-## 1. System Requirements
+  realsense2_camera
+  realsense2_camera_msgs
+  realsense2_description
+  ros-humble-librealsense2
 
-Use:
-
-```text
-Ubuntu 22.04
-ROS 2 Humble
-Python 3.10
-```
-
-Before running the setup, copy the full project folder to:
-
+  Install with:
 ```bash
-~/projv1
-```
-
-Important files/folders that must exist after copying:
-
-```text
-~/projv1/src/projv1_interfaces
-~/projv1/src/projv1_vision
-~/projv1/src/projv1_manipulation
-~/projv1/models/best.pt
-```
-
----
-
-## 2. One-Shot Installation Command
-
-Copy and run this entire command in a terminal:
-
-```bash
-# ============================================================
-# MINIMAL INSTALL FOR projv1 ROBOTIC ARM + REALSENSE + YOLO
-# Ubuntu 22.04 + ROS 2 Humble + xArm7 + MoveIt2 + RealSense + YOLO
-# ============================================================
-
-set -e
-
-echo "============================================================"
-echo "1. Basic Ubuntu tools"
-echo "============================================================"
-
-sudo apt update
-sudo apt upgrade -y
-
-sudo apt install -y \
-  git curl wget unzip build-essential cmake \
-  python3-pip python3-dev python3-venv \
-  software-properties-common lsb-release gnupg
-
-echo "============================================================"
-echo "2. Set up ROS 2 Humble repository"
-echo "============================================================"
-
-sudo add-apt-repository universe -y
-
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
-  -o /usr/share/keyrings/ros-archive-keyring.gpg
-
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
-  sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-
-sudo apt update
-
-echo "============================================================"
-echo "3. Install ROS 2, MoveIt2, xArm manipulation deps, RealSense deps"
-echo "============================================================"
-
-sudo apt install -y \
-  ros-humble-desktop \
-  ros-dev-tools \
-  python3-colcon-common-extensions \
-  python3-rosdep \
-  python3-vcstool \
-  python3-argcomplete \
-  ros-humble-moveit \
-  ros-humble-moveit-ros-planning-interface \
-  ros-humble-ros2-control \
-  ros-humble-ros2-controllers \
-  ros-humble-controller-manager \
-  ros-humble-joint-state-broadcaster \
-  ros-humble-joint-trajectory-controller \
-  ros-humble-gripper-controllers \
-  ros-humble-control-msgs \
-  ros-humble-trajectory-msgs \
-  ros-humble-sensor-msgs \
-  ros-humble-geometry-msgs \
-  ros-humble-std-msgs \
-  ros-humble-std-srvs \
-  ros-humble-tf2-ros \
-  ros-humble-tf2-geometry-msgs \
-  ros-humble-tf-transformations \
-  ros-humble-xacro \
-  ros-humble-rviz2 \
-  ros-humble-rqt \
-  ros-humble-rqt-graph \
-  ros-humble-rqt-image-view \
+  sudo apt install -y \
+  ros-humble-librealsense2 \
   ros-humble-realsense2-camera \
   ros-humble-realsense2-description \
-  ros-humble-cv-bridge \
-  ros-humble-image-transport \
-  ros-humble-image-view \
-  ros-humble-rosidl-default-generators \
-  ros-humble-rosidl-default-runtime \
-  ros-humble-ament-cmake \
-  ros-humble-ament-cmake-python
+  ros-humble-diagnostic-updater \
+  ros-humble-diagnostic-msgs
+```
 
-echo "============================================================"
-echo "4. Initialise rosdep"
-echo "============================================================"
+Test:
+```bash
+ros2 launch realsense2_camera rs_launch.py enable_color:=true enable_depth:=true
+```
 
-sudo rosdep init || true
-rosdep update
+- #### 4.5.3 Python dependencies
 
-echo "============================================================"
-echo "5. Install YOLO / Python vision dependencies"
-echo "============================================================"
+  Needed for YOLO, camera processing, transforms, and manipulation logic:
+  ```bash
+    pip install \
+    "numpy>=1.23,<2" \
+    opencv-python \
+    ultralytics \
+    torch \
+    torchvision \
+    scipy \
+    transforms3d \
+    pyrealsense2
+  ```
+- #### 4.5.4 Final build command
 
-python3 -m pip install --upgrade pip setuptools wheel
+  Use this:
+  ```bash
+    cd ~/projv1
+    
+    rm -rf build install log
+    
+    source /opt/ros/humble/setup.bash
+    
+    colcon build --symlink-install \
+      --packages-skip xarm_moveit_servo xarm_planner
+    
+    source install/setup.bash
+  ```
+- #### 4.5.5 Final run commands
 
-python3 -m pip install \
-  "numpy>=1.23,<2" \
-  opencv-python \
-  ultralytics \
-  torch \
-  torchvision \
-  torchaudio \
-  transforms3d \
-  scipy \
-  matplotlib \
-  pandas \
-  pyyaml \
-  pillow \
-  requests
+Terminal 1:
 
-echo "============================================================"
-echo "6. Check projv1 workspace"
-echo "============================================================"
-
-mkdir -p ~/projv1/src
-cd ~/projv1/src
-
-echo "============================================================"
-echo "7. Clone xArm ROS 2 package if missing"
-echo "============================================================"
-
-if [ ! -d "xarm_ros2" ]; then
-  git clone https://github.com/xArm-Developer/xarm_ros2.git --recursive -b humble
-else
-  echo "xarm_ros2 already exists, skipping"
-fi
-
-echo "============================================================"
-echo "8. Clone RealSense ROS package if missing"
-echo "============================================================"
-
-if [ ! -d "realsense-ros" ]; then
-  git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
-else
-  echo "realsense-ros already exists, skipping"
-fi
-
-echo "============================================================"
-echo "9. Build projv1 workspace"
-echo "============================================================"
-
+ ```bash
 cd ~/projv1
-
-rm -rf build install log
-
 source /opt/ros/humble/setup.bash
+source install/setup.bash
 
-rosdep install --from-paths src --ignore-src -r -y
+ros2 launch projv1_bringup plant_pot_full_system.launch.py
+ ```
 
-colcon build --symlink-install
+Terminal 2:
 
-echo "============================================================"
-echo "10. Add source commands to ~/.bashrc"
-echo "============================================================"
-
-grep -qxF "source /opt/ros/humble/setup.bash" ~/.bashrc || \
-  echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
-
-grep -qxF "source ~/projv1/install/setup.bash" ~/.bashrc || \
-  echo "source ~/projv1/install/setup.bash" >> ~/.bashrc
-
-source ~/.bashrc
-
-echo "============================================================"
-echo "11. Final checks"
-echo "============================================================"
-
+ ```bash
+cd ~/projv1
 source /opt/ros/humble/setup.bash
-source ~/projv1/install/setup.bash
+source install/setup.bash
 
-echo "Checking projv1 packages:"
-ros2 pkg list | grep projv1 || true
-
-echo "Checking Python vision dependencies:"
-python3 -c "import cv2, numpy, ultralytics, transforms3d; print('Vision dependencies OK')"
-
-echo "Checking YOLO:"
-yolo version || true
-
-echo "============================================================"
-echo "DONE."
-echo "Open a new terminal and run:"
-echo "cd ~/projv1"
-echo "source install/setup.bash"
-echo "============================================================"
-```
-
----
+ros2 service call /activate_plant_pot_above projv1_interfaces/srv/ActivatePlantPotAbove "{selected_class: 'Pot', target_frame: 'link_base', warmup_frames: 5}"
+ ```
 
 
-## Main Project Dependencies
-
-This project requires:
-
-```text
-Ubuntu 22.04
-ROS 2 Humble
-MoveIt 2
-ros2_control
-xarm_ros2
-RealSense ROS
-cv_bridge
-OpenCV
-Ultralytics YOLO
-PyTorch
-NumPy >=1.23,<2
-transforms3d
-projv1_interfaces
-projv1_vision
-projv1_manipulation
-```
-
----
-
-## Main Project Files
-
-The important custom project packages are:
-
-```text
-projv1_interfaces
-projv1_vision
-projv1_manipulation
-```
-
-The important trained model file is:
-
-```text
-~/projv1/models/best.pt
-```
-
-Without `best.pt`, the YOLO node may still run, but it will not use the trained plant/pot detection model.
-
-- ### 4.5 Build Projv1
+- ### 4.6 Build Projv1
     ```bash
     # Remember to source ros2 and moveit2 environment settings first
     cd ~/projv1/
