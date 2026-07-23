@@ -456,6 +456,23 @@ Change train-? and remove the prev best.pt
 cp runs/detect/train-3/weights/best.pt ~/projv1/models/
 
 ```
+train for classify
+
+```bash
+ cd ~/projv1/training
+
+yolo classify train \
+  data=Classify_dataset \
+  model=yolo11n-cls.pt \
+  epochs=50 \
+  imgsz=224 \
+  batch=16
+```
+```bash
+cp ~/projv1/training/runs/classify/train/weights/best.pt \
+  ~/projv1/models/plant_classifier/best.pt
+```
+
 How ws should look ( View in the code tab )
 
 projv1/
